@@ -1,0 +1,680 @@
+{
+  "carpan": [
+    {
+      "text": "24 sayısının çarpanı hangisidir?",
+      "correct": "6",
+      "wrong": [
+        "5",
+        "7",
+        "11"
+      ],
+      "explain": "24 ÷ 6 = 4. Tam bölündüğü için 6, 24’ün çarpanıdır.",
+      "hint": "Çarpan, sayıyı kalansız böler.",
+      "hard": false
+    },
+    {
+      "text": "18 sayısının çarpanı OLMAYAN sayı hangisidir?",
+      "correct": "5",
+      "wrong": [
+        "1",
+        "2",
+        "3"
+      ],
+      "explain": "18 sayısı 1, 2 ve 3’e tam bölünür; 5’e tam bölünmez.",
+      "hint": "18’i hangi sayılara kalansız bölebilirsin?",
+      "hard": false
+    },
+    {
+      "text": "30 sayısının kaç pozitif çarpanı vardır?",
+      "correct": "8",
+      "wrong": [
+        "6",
+        "7",
+        "9"
+      ],
+      "explain": "Çarpanları 1, 2, 3, 5, 6, 10, 15 ve 30’dur. Toplam 8 tane.",
+      "hint": "30’u çarpan çiftleriyle bul: 1×30, 2×15, 3×10...",
+      "hard": true
+    },
+    {
+      "text": "28 sayısını oluşturan çarpan çifti hangisidir?",
+      "correct": "4 × 7",
+      "wrong": [
+        "3 × 9",
+        "2 × 13",
+        "5 × 6"
+      ],
+      "explain": "4 × 7 = 28. Bu nedenle 4 ve 7, 28’in çarpanlarıdır.",
+      "hint": "İki sayıyı çarp ve sonucu 28 olanı seç.",
+      "hard": false
+    },
+    {
+      "text": "36 sayısı hangi sayıya kalansız bölünür?",
+      "correct": "9",
+      "wrong": [
+        "5",
+        "7",
+        "11"
+      ],
+      "explain": "36 ÷ 9 = 4; kalan sıfırdır.",
+      "hint": "9 ile bölmeyi düşün.",
+      "hard": false
+    },
+    {
+      "text": "Çarpanlarla ilgili hangi ifade doğrudur?",
+      "correct": "1, her pozitif doğal sayının çarpanıdır.",
+      "wrong": [
+        "0, her sayının pozitif çarpanıdır.",
+        "2, bütün tek sayıların çarpanıdır.",
+        "5, bütün pozitif sayıların çarpanıdır."
+      ],
+      "explain": "Her pozitif doğal sayı 1’e kalansız bölünür.",
+      "hint": "1 sayısının bölme özelliğini düşün.",
+      "hard": false
+    },
+    {
+      "text": "45 sayısının çarpanı OLMAYAN sayı hangisidir?",
+      "correct": "6",
+      "wrong": [
+        "1",
+        "5",
+        "9"
+      ],
+      "explain": "45, 1’e, 5’e ve 9’a tam bölünür; 6’ya bölünmez.",
+      "hint": "45 = 5 × 9 olduğunu hatırla.",
+      "hard": false
+    },
+    {
+      "text": "16 sayısının bütün pozitif çarpanları hangileridir?",
+      "correct": "1, 2, 4, 8, 16",
+      "wrong": [
+        "1, 2, 3, 8, 16",
+        "2, 4, 8, 16",
+        "1, 2, 4, 6, 16"
+      ],
+      "explain": "16’nın pozitif çarpanları: 1, 2, 4, 8 ve 16.",
+      "hint": "1×16, 2×8 ve 4×4 çiftlerini kullan.",
+      "hard": true
+    },
+    {
+      "text": "20’nin kendisinden küçük en büyük pozitif çarpanı kaçtır?",
+      "correct": "10",
+      "wrong": [
+        "8",
+        "5",
+        "4"
+      ],
+      "explain": "20 = 2 × 10. Kendisi dışında en büyük pozitif çarpanı 10’dur.",
+      "hint": "20’yi kendisi hariç en küçük hangi sayıya bölebilirsin?",
+      "hard": false
+    },
+    {
+      "text": "42 sayısı aşağıdakilerden hangisine kalansız bölünür?",
+      "correct": "7",
+      "wrong": [
+        "4",
+        "5",
+        "8"
+      ],
+      "explain": "42 ÷ 7 = 6, dolayısıyla 7 bir çarpandır.",
+      "hint": "6 × 7 = 42.",
+      "hard": false
+    },
+    {
+      "text": "54 sayısının pozitif çarpanlarından biri hangisidir?",
+      "correct": "9",
+      "wrong": [
+        "4",
+        "5",
+        "7"
+      ],
+      "explain": "54 ÷ 9 = 6 olduğu için 9, 54’ün çarpanıdır.",
+      "hint": "9 ile 6’nın çarpımını hatırla.",
+      "hard": false
+    },
+    {
+      "text": "12 sayısının kaç pozitif çarpanı vardır?",
+      "correct": "6",
+      "wrong": [
+        "4",
+        "5",
+        "7"
+      ],
+      "explain": "1, 2, 3, 4, 6, 12 olmak üzere 6 pozitif çarpanı vardır.",
+      "hint": "1×12, 2×6, 3×4 çiftlerini say.",
+      "hard": false
+    },
+    {
+      "text": "48 = 6 × □ eşitliğinde kutuya hangi sayı gelir?",
+      "correct": "8",
+      "wrong": [
+        "6",
+        "7",
+        "9"
+      ],
+      "explain": "6 × 8 = 48, bu nedenle 6 ve 8 sayıları 48’in çarpanlarıdır.",
+      "hint": "48’i 6’ya böl.",
+      "hard": false
+    },
+    {
+      "text": "17 sayısının kaç pozitif çarpanı vardır?",
+      "correct": "2",
+      "wrong": [
+        "1",
+        "3",
+        "4"
+      ],
+      "explain": "17’nin yalnızca 1 ve 17 olmak üzere 2 pozitif çarpanı vardır.",
+      "hint": "17, asal bir sayıdır.",
+      "hard": false
+    },
+    {
+      "text": "24 ve 36’nın ortak çarpanlarından biri hangisidir?",
+      "correct": "12",
+      "wrong": [
+        "5",
+        "8",
+        "9"
+      ],
+      "explain": "24 ÷ 12 = 2 ve 36 ÷ 12 = 3; her iki sayıyı da tam böler.",
+      "hint": "Seçeneklerin her iki sayıyı da bölmesi gerekir.",
+      "hard": true
+    },
+    {
+      "text": "Hem 18’in hem de 30’un çarpanı olan sayı hangisidir?",
+      "correct": "6",
+      "wrong": [
+        "4",
+        "5",
+        "9"
+      ],
+      "explain": "18 = 3 × 6 ve 30 = 5 × 6 olduğundan 6 ortak çarpandır.",
+      "hint": "18 ve 30’u ayrı ayrı bölebilen sayıyı ara.",
+      "hard": true
+    },
+    {
+      "text": "Bir pozitif doğal sayının en büyük pozitif çarpanı hangisidir?",
+      "correct": "Sayının kendisi",
+      "wrong": [
+        "Her zaman 1",
+        "Her zaman 2",
+        "Sayının bir fazlası"
+      ],
+      "explain": "Her pozitif doğal sayı kendisine tam bölünür. En büyük pozitif çarpanı kendisidir.",
+      "hint": "Örneğin 15’in en büyük çarpanı kaçtır?",
+      "hard": false
+    }
+  ],
+  "kat": [
+    {
+      "text": "6 sayısının 4. pozitif katı kaçtır?",
+      "correct": "24",
+      "wrong": [
+        "18",
+        "30",
+        "36"
+      ],
+      "explain": "6’nın pozitif katları: 6, 12, 18, 24… Dördüncüsü 24’tür.",
+      "hint": "6 × 4 işlemini yap.",
+      "hard": false
+    },
+    {
+      "text": "8 sayısının ilk pozitif katı kaçtır?",
+      "correct": "8",
+      "wrong": [
+        "0",
+        "16",
+        "24"
+      ],
+      "explain": "Pozitif katlar 8, 16, 24… diye başlar. Sıfır pozitif değildir.",
+      "hint": "8 × 1’i düşün.",
+      "hard": false
+    },
+    {
+      "text": "7’nin ilk üç pozitif katı hangileridir?",
+      "correct": "7, 14, 21",
+      "wrong": [
+        "0, 7, 14",
+        "7, 15, 21",
+        "14, 21, 28"
+      ],
+      "explain": "7 × 1 = 7, 7 × 2 = 14, 7 × 3 = 21.",
+      "hint": "7’şer 7’şer say.",
+      "hard": false
+    },
+    {
+      "text": "Aşağıdaki sayılardan hangisi 9’un katıdır?",
+      "correct": "54",
+      "wrong": [
+        "52",
+        "56",
+        "58"
+      ],
+      "explain": "9 × 6 = 54; bu yüzden 54, 9’un katıdır.",
+      "hint": "9 çarpım tablosunu kullan.",
+      "hard": false
+    },
+    {
+      "text": "Aşağıdakilerden hangisi 5’in katı DEĞİLDİR?",
+      "correct": "42",
+      "wrong": [
+        "35",
+        "60",
+        "75"
+      ],
+      "explain": "5’in katları 0 veya 5 ile biter. 42 bu kurala uymaz.",
+      "hint": "5’in katlarının birler basamağını incele.",
+      "hard": false
+    },
+    {
+      "text": "12’nin 5. pozitif katı kaçtır?",
+      "correct": "60",
+      "wrong": [
+        "48",
+        "55",
+        "72"
+      ],
+      "explain": "12 × 5 = 60.",
+      "hint": "12’şer say veya 12 × 5 yap.",
+      "hard": false
+    },
+    {
+      "text": "4 ile 6’nın en küçük ortak pozitif katı kaçtır?",
+      "correct": "12",
+      "wrong": [
+        "8",
+        "10",
+        "24"
+      ],
+      "explain": "4’ün katları 4, 8, 12…; 6’nın katları 6, 12… İlk ortak pozitif kat 12’dir.",
+      "hint": "İki sayının katlarını sırayla yaz.",
+      "hard": true
+    },
+    {
+      "text": "Hem 3’ün hem de 5’in katı olan sayı hangisidir?",
+      "correct": "30",
+      "wrong": [
+        "18",
+        "25",
+        "28"
+      ],
+      "explain": "30, 3 × 10 ve 5 × 6 olarak yazılır.",
+      "hint": "Hem 3’e hem de 5’e kalansız bölünmeli.",
+      "hard": false
+    },
+    {
+      "text": "10’un 7. pozitif katı kaçtır?",
+      "correct": "70",
+      "wrong": [
+        "17",
+        "60",
+        "80"
+      ],
+      "explain": "10 × 7 = 70.",
+      "hint": "10’ar sayarken yedinci sayıya gel.",
+      "hard": false
+    },
+    {
+      "text": "2’nin bütün pozitif katları nasıl sayılardır?",
+      "correct": "Çift",
+      "wrong": [
+        "Tek",
+        "Asal",
+        "Tek basamaklı"
+      ],
+      "explain": "2’nin tüm pozitif katları 2’ye tam bölünür; dolayısıyla çifttir.",
+      "hint": "2, 4, 6, 8, 10… dizisini incele.",
+      "hard": false
+    },
+    {
+      "text": "30’dan büyük en küçük 4 katı kaçtır?",
+      "correct": "32",
+      "wrong": [
+        "30",
+        "34",
+        "36"
+      ],
+      "explain": "4’ün katları 28, 32, 36…; 30’dan büyük ilk kat 32’dir.",
+      "hint": "4 × 7 = 28; bir sonraki katı düşün.",
+      "hard": false
+    },
+    {
+      "text": "9’un 3. pozitif katı kaçtır?",
+      "correct": "27",
+      "wrong": [
+        "18",
+        "36",
+        "39"
+      ],
+      "explain": "9 × 3 = 27.",
+      "hint": "9, 18, 27 diye say.",
+      "hard": false
+    },
+    {
+      "text": "Hem 6’nın hem 8’in katı olan sayı hangisidir?",
+      "correct": "48",
+      "wrong": [
+        "18",
+        "32",
+        "42"
+      ],
+      "explain": "48 = 6 × 8 ve 48 = 8 × 6; ikisinin de katıdır.",
+      "hint": "Her iki sayıya da tam bölünmeli.",
+      "hard": true
+    },
+    {
+      "text": "15’in 4. pozitif katı kaçtır?",
+      "correct": "60",
+      "wrong": [
+        "45",
+        "75",
+        "90"
+      ],
+      "explain": "15 × 4 = 60.",
+      "hint": "15 + 15 + 15 + 15.",
+      "hard": false
+    },
+    {
+      "text": "4, 8, 12, 16, □ örüntüsünde sıradaki sayı kaçtır?",
+      "correct": "20",
+      "wrong": [
+        "18",
+        "22",
+        "24"
+      ],
+      "explain": "Dizi 4’er artar: 16 + 4 = 20.",
+      "hint": "Her adımda ne kadar artıyor?",
+      "hard": false
+    },
+    {
+      "text": "3 ve 4’ün en küçük ortak pozitif katı kaçtır?",
+      "correct": "12",
+      "wrong": [
+        "6",
+        "7",
+        "24"
+      ],
+      "explain": "3’ün katları 3, 6, 9, 12…; 4’ün katları 4, 8, 12…",
+      "hint": "Her iki sayının katlarını karşılaştır.",
+      "hard": true
+    },
+    {
+      "text": "6’nın ilk beş pozitif katı hangileridir?",
+      "correct": "6, 12, 18, 24, 30",
+      "wrong": [
+        "0, 6, 12, 18, 24",
+        "6, 12, 18, 25, 30",
+        "6, 12, 16, 24, 30"
+      ],
+      "explain": "6 × 1’den 6 × 5’e kadar saydığımızda 6, 12, 18, 24, 30 buluruz.",
+      "hint": "6, 12, 18… diye ilerle.",
+      "hard": false
+    },
+    {
+      "text": "35 sayısı 7’nin kaçıncı pozitif katıdır?",
+      "correct": "5.",
+      "wrong": [
+        "4.",
+        "6.",
+        "7."
+      ],
+      "explain": "7 × 5 = 35, dolayısıyla 35 sayısı 7’nin 5. pozitif katıdır.",
+      "hint": "35 ÷ 7 işlemini yap.",
+      "hard": false
+    }
+  ],
+  "asal": [
+    {
+      "text": "Tek çift asal sayı hangisidir?",
+      "correct": "2",
+      "wrong": [
+        "4",
+        "6",
+        "8"
+      ],
+      "explain": "2 yalnızca 1 ve 2’ye bölünür; çift asal sayıların tek örneğidir.",
+      "hint": "2’nin pozitif çarpanlarını düşün.",
+      "hard": false
+    },
+    {
+      "text": "1 sayısı neden asal değildir?",
+      "correct": "Yalnızca 1 pozitif çarpanı vardır.",
+      "wrong": [
+        "2 pozitif çarpanı vardır.",
+        "Çift sayıdır.",
+        "3’e bölünebilir."
+      ],
+      "explain": "Asal sayıların tam olarak iki farklı pozitif çarpanı olur. 1’in ise yalnızca bir tane vardır.",
+      "hint": "Asal sayının çarpan sayısı 2 olmalı.",
+      "hard": false
+    },
+    {
+      "text": "Aşağıdakilerden hangisi asal sayıdır?",
+      "correct": "29",
+      "wrong": [
+        "27",
+        "33",
+        "35"
+      ],
+      "explain": "29’un 1 ve kendisi dışında pozitif çarpanı yoktur.",
+      "hint": "27 ve 33, 3’e; 35 ise 5’e tam bölünür.",
+      "hard": false
+    },
+    {
+      "text": "Aşağıdakilerden hangisi asal sayı DEĞİLDİR?",
+      "correct": "21",
+      "wrong": [
+        "19",
+        "23",
+        "31"
+      ],
+      "explain": "21 = 3 × 7, bu yüzden asal değildir.",
+      "hint": "1 ve kendisinden başka çarpanı olanı ara.",
+      "hard": false
+    },
+    {
+      "text": "36’nın farklı asal çarpanları hangileridir?",
+      "correct": "2 ve 3",
+      "wrong": [
+        "2 ve 5",
+        "3 ve 6",
+        "2 ve 7"
+      ],
+      "explain": "36 = 2² × 3² olduğundan farklı asal çarpanları 2 ve 3’tür.",
+      "hint": "36’yı asal sayıların çarpımı biçiminde yaz.",
+      "hard": true
+    },
+    {
+      "text": "60’ın farklı asal çarpanları hangileridir?",
+      "correct": "2, 3 ve 5",
+      "wrong": [
+        "2 ve 3",
+        "3 ve 5",
+        "2, 5 ve 7"
+      ],
+      "explain": "60 = 2² × 3 × 5. Farklı asal çarpanlar 2, 3 ve 5’tir.",
+      "hint": "60’ı sırayla 2, 3 ve 5’e böl.",
+      "hard": true
+    },
+    {
+      "text": "24’ün asal çarpanlarına ayrılmış hâli hangisidir?",
+      "correct": "2³ × 3",
+      "wrong": [
+        "2² × 3",
+        "2 × 3²",
+        "2 × 3 × 5"
+      ],
+      "explain": "24 = 2 × 2 × 2 × 3 = 2³ × 3.",
+      "hint": "24’ü 2’ye bölerek ilerle.",
+      "hard": true
+    },
+    {
+      "text": "45’in asal çarpanlarına ayrılmış hâli hangisidir?",
+      "correct": "3² × 5",
+      "wrong": [
+        "3 × 5",
+        "5² × 3",
+        "3³"
+      ],
+      "explain": "45 = 3 × 3 × 5 = 3² × 5.",
+      "hint": "45 = 9 × 5 olduğunu hatırla.",
+      "hard": true
+    },
+    {
+      "text": "İki basamaklı en küçük asal sayı kaçtır?",
+      "correct": "11",
+      "wrong": [
+        "10",
+        "12",
+        "15"
+      ],
+      "explain": "11’in yalnızca 1 ve 11 olmak üzere iki pozitif çarpanı vardır.",
+      "hint": "10 asal değildir. Bir sonrakini dene.",
+      "hard": false
+    },
+    {
+      "text": "10 ile 20 arasında kaç asal sayı vardır?",
+      "correct": "4",
+      "wrong": [
+        "3",
+        "5",
+        "6"
+      ],
+      "explain": "11, 13, 17 ve 19 asal sayıdır; toplam 4 tane.",
+      "hint": "10’dan 20’ye kadar sayıları sırayla kontrol et.",
+      "hard": true
+    },
+    {
+      "text": "Bir asal sayının kaç farklı pozitif çarpanı olur?",
+      "correct": "2",
+      "wrong": [
+        "1",
+        "3",
+        "4"
+      ],
+      "explain": "Asal sayı, yalnızca 1’e ve kendisine kalansız bölünür.",
+      "hint": "Asal sayının tanımını hatırla.",
+      "hard": false
+    },
+    {
+      "text": "84’ün farklı asal çarpanları hangileridir?",
+      "correct": "2, 3 ve 7",
+      "wrong": [
+        "2 ve 7",
+        "3 ve 7",
+        "2, 3 ve 5"
+      ],
+      "explain": "84 = 2² × 3 × 7 olduğu için asal çarpanları 2, 3 ve 7’dir.",
+      "hint": "84 → 42 → 21 → 7 yolunu izle.",
+      "hard": true
+    },
+    {
+      "text": "49 neden asal sayı değildir?",
+      "correct": "7 × 7 olarak yazılabilir.",
+      "wrong": [
+        "Tek sayıdır.",
+        "İki basamaklıdır.",
+        "Sonu 9 ile biter."
+      ],
+      "explain": "49’un 1 ve 49 dışında 7 çarpanı da vardır.",
+      "hint": "7 × 7 işlemini hatırla.",
+      "hard": false
+    },
+    {
+      "text": "Aşağıdakilerden hangisi asal sayıdır?",
+      "correct": "17",
+      "wrong": [
+        "15",
+        "21",
+        "25"
+      ],
+      "explain": "17’nin 1 ve 17 dışında pozitif çarpanı bulunmaz.",
+      "hint": "15, 21 ve 25’in başka çarpanları vardır.",
+      "hard": false
+    },
+    {
+      "text": "90’ın asal çarpanlarına ayrılmış hâli hangisidir?",
+      "correct": "2 × 3² × 5",
+      "wrong": [
+        "2 × 3 × 5",
+        "2² × 3 × 5",
+        "2 × 3 × 5²"
+      ],
+      "explain": "90 = 2 × 3 × 3 × 5 = 2 × 3² × 5.",
+      "hint": "90 = 9 × 10 şeklinde yaz.",
+      "hard": true
+    },
+    {
+      "text": "72’nin farklı asal çarpanları hangileridir?",
+      "correct": "2 ve 3",
+      "wrong": [
+        "2 ve 5",
+        "3 ve 7",
+        "2, 3 ve 7"
+      ],
+      "explain": "72 = 2³ × 3²; farklı asal çarpanları 2 ve 3’tür.",
+      "hint": "72 = 8 × 9 olduğunu düşün.",
+      "hard": true
+    },
+    {
+      "text": "Aşağıdakilerden hangisi asal sayıdır?",
+      "correct": "37",
+      "wrong": [
+        "39",
+        "45",
+        "51"
+      ],
+      "explain": "37, 2’ye, 3’e veya 5’e bölünmez ve 1 ile kendisinden başka çarpanı yoktur.",
+      "hint": "Diğer seçeneklerin rakamları toplamına bak.",
+      "hard": false
+    },
+    {
+      "text": "91’in asal olmadığını gösteren işlem hangisidir?",
+      "correct": "7 × 13 = 91",
+      "wrong": [
+        "2 × 45 = 90",
+        "3 × 30 = 90",
+        "5 × 19 = 95"
+      ],
+      "explain": "91 = 7 × 13. 1 ve 91 dışında çarpanları olduğu için asal değildir.",
+      "hint": "7 ve 13’ü çarp.",
+      "hard": true
+    },
+    {
+      "text": "25’in tek farklı asal çarpanı hangisidir?",
+      "correct": "5",
+      "wrong": [
+        "2",
+        "3",
+        "7"
+      ],
+      "explain": "25 = 5 × 5; farklı asal çarpanı yalnızca 5’tir.",
+      "hint": "5 × 5 = 25.",
+      "hard": false
+    },
+    {
+      "text": "100’ün asal çarpanlarına ayrılmış hâli hangisidir?",
+      "correct": "2² × 5²",
+      "wrong": [
+        "2 × 5²",
+        "2³ × 5",
+        "2² × 5"
+      ],
+      "explain": "100 = 10 × 10 = 2 × 5 × 2 × 5 = 2² × 5².",
+      "hint": "100 = 10 × 10 yaz ve her 10’u ayır.",
+      "hard": true
+    },
+    {
+      "text": "En küçük asal sayı kaçtır?",
+      "correct": "2",
+      "wrong": [
+        "1",
+        "3",
+        "5"
+      ],
+      "explain": "En küçük asal sayı 2’dir. 1, asal sayı değildir.",
+      "hint": "Bir asal sayının 2 farklı pozitif çarpanı vardır.",
+      "hard": false
+    }
+  ]
+}
