@@ -367,7 +367,7 @@ function exportTeacherCsvExample(){
 function toggleTeacherQuestionSource(){
  const custom=app.querySelector('#question-source')?.value==='custom';
  const bank=app.querySelector('#custom-bank');if(bank)bank.hidden=!custom;
- const cat=app.querySelector('#category-field');if(cat)cat.hidden=custom;
+ const cat=app.querySelector('#category-field');if(cat)cat.style.display=custom?'none':'';
  if(custom)renderTeacherBank();
 }
 
@@ -381,13 +381,17 @@ ${alertHTML()}<div class="grid">
 }
 function renderSetup(){app.innerHTML=`<section class="section">${nav()}<div class="box">${alertHTML()}<div class="eyebrow">🎤 ÖĞRETMEN KONTROL PANELİ</div><h1 class="title">Canlı yarışmayı ayarla</h1><p class="subtitle">Odayı açtığında sınıftaki öğrenciler, ekranda gözükecek PIN veya QR koduyla katılabilir.</p>
 <div class="fields">
+<div class="field"><label for="question-source">Soru kaynağı</label><select id="question-source"><option value="hazir">📚 Oyunun hazır soruları</option><option value="custom">✏️ Kendi Sorularım</option></select></div>
 <div class="field"><label for="mode">Yarışma biçimi</label><select id="mode"><option value="bireysel">🏆 Bireysel rekabet</option><option value="takim">🤝 Takımlar arası rekabet</option></select></div>
-<div class="field"><label for="category">Konu</label><select id="category"><option value="karisik">🎲 Üç konudan karışık</option><option value="carpan">🪐 Çarpanlar</option><option value="kat">🚀 Katlar</option><option value="asal">💎 Asal Sayılar</option></select></div>
+<div class="field" id="category-field"><label for="category">Konu</label><select id="category"><option value="karisik">🎲 Üç konudan karışık</option><option value="carpan">🪐 Çarpanlar</option><option value="kat">🚀 Katlar</option><option value="asal">💎 Asal Sayılar</option></select></div>
 <div class="field"><label for="count">Soru sayısı</label><select id="count"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div>
 <div class="field"><label for="seconds">Soru başına süre</label><select id="seconds"><option>15</option><option selected>20</option><option>30</option><option>45</option></select></div>
 <div class="field" id="team-field" style="display:none"><label for="teams">Takım sayısı</label><select id="teams"><option value="2">2 takım</option><option value="3">3 takım</option><option value="4">4 takım</option></select></div></div>
+${customBankMarkup()}
 <button class="btn gold wide-btn" data-click="create" ${online?'':'disabled'}>🚀 ODAYI AÇ VE PIN OLUŞTUR</button><p class="small-muted center">Odanın açılması için internet erişimi veya sınıf içi aynı Wi-Fi ağında çalışan bir sunucu gerekir.</p></div></section>`;
-app.querySelector('#mode').addEventListener('change',ev=>{app.querySelector('#team-field').style.display=ev.target.value==='takim'?'block':'none';});}
+app.querySelector('#mode').addEventListener('change',ev=>{app.querySelector('#team-field').style.display=ev.target.value==='takim'?'block':'none';});
+app.querySelector('#question-source').addEventListener('change',toggleTeacherQuestionSource);
+renderTeacherBank();toggleTeacherQuestionSource();}
 function renderJoin(){app.innerHTML=`<section class="section" style="max-width:520px">${nav()}<div class="box center">${alertHTML()}<span class="big-emoji">📱</span><div class="eyebrow">ÖĞRENCİ GİRİŞİ</div><h1 class="title">Yarışmaya Katıl!</h1><p class="subtitle">Tahtadaki 6 haneli PIN'i yaz, ardından kendine bir rumuz seç.</p><form id="join-form" style="text-align:left"><div class="field"><label for="pin">6 haneli yarışma PIN'i</label><input id="pin" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required placeholder="123456" value="${ESC(prefill)}" autocomplete="one-time-code"></div><div class="field" style="margin-top:17px"><label for="nickname">Rumuzun (gerçek adın gerekli değil)</label><input id="nickname" maxlength="24" minlength="2" required placeholder="Örn. Matematik Yıldızı" autocomplete="nickname"></div><button type="submit" class="btn main-btn wide-btn" ${online?'':'disabled'}>✨ OYUNA KATIL</button></form><p class="small-muted">Her öğrenci kendi telefonundan girer. Öğretmenin soruyu başlatmasını bekle.</p></div></section>`;
 app.querySelector('#join-form').addEventListener('submit',e=>{e.preventDefault();error='';send({action:'join',code:app.querySelector('#pin').value.replace(/\D/g,''),name:app.querySelector('#nickname').value.trim()});});}
 function scoresTable(s,limit=60){return s.players.slice(0,limit).map(p=>`<div class="score-row rank-${Math.min(p.rank,3)} ${p.rank===1?'top':''}"><span class="medal">${medal(p.rank)}</span><span class="score-name">${ESC(p.name)} ${p.online?'':'<small>Bağlantı kesildi</small>'}<small>${p.correct} doğru</small></span><span class="points">${fmt(p.score)}<small>puan</small></span></div>`).join('')||'<p class="small-muted center">Henüz oyuncu yok.</p>'}
@@ -415,14 +419,41 @@ function render(){if(ui!=='room')document.body.classList.remove('arena-mode');if
 function updateTimer(){if(!serverState||serverState.status!=='question'||!serverState.question)return;const el=document.getElementById('timer');if(!el)return;const shell=document.getElementById('timer-shell');const label=document.getElementById('timer-label');const remainMs=Math.max(0,serverState.question.deadline-(Date.now()-clockSkew));const totalMs=Math.max(1000,(serverState.config?.seconds||1)*1000);const left=Math.max(0,Math.ceil(remainMs/1000));const pct=Math.max(0,Math.min(100,remainMs/totalMs*100));el.textContent=left;el.classList.toggle('warn',left<=5);document.querySelectorAll('[data-timer]').forEach(t=>t.textContent=left);const mobileTimer=document.getElementById('mobile-timer');if(mobileTimer)mobileTimer.classList.toggle('warn',left<=5);if(shell){shell.style.setProperty('--p',pct.toFixed(2)+'%');shell.classList.toggle('warn',left<=5)}if(label)label.textContent=left<=0?'Süre doldu':left<=5?'Son saniyeler!':'Süre akıyor';}
 function exportCsv(s){const fields=[['Sıra','Oyuncu','Takım','Puan','Doğru Sayısı'],...s.players.map(p=>[p.rank,p.name,p.team===null?'':`Takım ${p.team+1}`,p.score,p.correct])];const txt='\ufeff'+fields.map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(';')).join('\r\n');const url=URL.createObjectURL(new Blob([txt],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=`sayi_kasifleri_sonuclar_${s.code}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
 document.getElementById('sound-toggle').addEventListener('click',()=>{soundsOn=!soundsOn;const b=document.getElementById('sound-toggle');b.textContent=soundsOn?'🔊':'🔇';b.title=soundsOn?'Ses efektleri açık':'Ses efektleri kapalı';b.setAttribute('aria-label',soundsOn?'Ses efektlerini kapat':'Ses efektlerini aç');b.setAttribute('aria-pressed',String(soundsOn));if(soundsOn)playTone(640,.13)});
+app.addEventListener('change',e=>{if(e.target.id==='custom-file')importTeacherFile(e.target)});
 app.addEventListener('change',e=>{if(e.target.id==='invite-origin'){try{const u=new URL(e.target.value.trim());if(!['http:','https:'].includes(u.protocol))throw new Error();inviteOrigin=u.origin;error='';render();}catch{error='Bağlantı adresini http:// veya https:// ile girin.';render();}}});
 app.addEventListener('click',async e=>{const button=e.target.closest('[data-click],[data-choice]');if(!button||!app.contains(button))return;
 if(button.hasAttribute('data-choice')){if(serverState?.role==='player'&&!serverState.me?.answered)send({action:'answer',choice:Number(button.dataset.choice)});return;}
 const type=button.dataset.click;
+if(type==='custom-save'){addTeacherQuestion();return}
+if(type==='custom-clear'){clearTeacherEditor();teacherMessage('Form temizlendi.');return}
+if(type==='custom-edit'){openTeacherEditor(Number(button.dataset.index));return}
+if(type==='custom-remove'){
+ const i=Number(button.dataset.index);
+ if(Number.isInteger(i)&&i>=0&&i<customQuestions.length&&confirm((i+1)+'. soruyu silmek istiyor musun?')){
+  customQuestions.splice(i,1);saveTeacherQuestions();clearTeacherEditor();renderTeacherBank();teacherMessage('Soru silindi.');
+ }return
+}
+if(type==='custom-template'){exportTeacherCsvExample();teacherMessage('CSV şablonu indirildi. Excel’de doldurup CSV olarak kaydedebilirsin.');return}
+if(type==='custom-export'){
+ if(!customQuestions.length){teacherMessage('Dışa aktarmak için önce soru ekle.');return}
+ downloadTeacherText('sayi_kasifleri_sorularim.json',JSON.stringify(customQuestions,null,2),'application/json;charset=utf-8');
+ teacherMessage('Soruların JSON dosyası olarak indirildi.');return
+}
 if(type==='back'||type==='home'){forget();if(ws&&ws.readyState===1)ws.close();ui='home';error='';render();history.replaceState(null,'',location.pathname);return;}
 if(type==='setup'){ui='create';error='';render();return}
 if(type==='join'){ui='join';error='';render();return}
-if(type==='create'){const config={mode:app.querySelector('#mode').value,category:app.querySelector('#category').value,count:Number(app.querySelector('#count').value),seconds:Number(app.querySelector('#seconds').value),teams:Number(app.querySelector('#teams').value)};send({action:'create',config});button.disabled=true;return}
+if(type==='create'){
+ const source=app.querySelector('#question-source')?.value==='custom'?'custom':'hazir';
+ const config={mode:app.querySelector('#mode').value,category:app.querySelector('#category').value,
+  count:Number(app.querySelector('#count').value),seconds:Number(app.querySelector('#seconds').value),
+  teams:Number(app.querySelector('#teams').value),source};
+ if(source==='custom'){
+  if(!customQuestions.length){teacherMessage('⚠️ Önce en az bir soru ekle veya CSV / JSON dosyası yükle.');return}
+  let questions;try{questions=customQuestions.map(validateTeacherQuestion)}catch(e){teacherMessage('⚠️ '+e.message);return}
+  send({action:'create',config,questions});
+ }else send({action:'create',config});
+ button.disabled=true;return
+}
 if(type==='copy'){const url=joinUrl(serverState);try{await navigator.clipboard.writeText(url);button.textContent='✅ KOPYALANDI';}catch{prompt('Bağlantıyı kopyalayın:',url);}return}
 if(type==='next'||type==='reveal'||type==='reset'||type==='end'){send({action:type});return}
 if(type==='csv'&&serverState)exportCsv(serverState);
