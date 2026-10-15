@@ -19,6 +19,7 @@ QUESTIONS = json.loads((BASE / 'web' / 'sorular.json').read_text(encoding='utf-8
 ROOMS = {}
 MAX_PLAYERS = 60
 MAX_ROOMS = 150
+MAX_CUSTOM_QUESTIONS = 60
 TEAM_NAMES = ['Mercan Takımı', 'Zümrüt Takımı', 'Safir Takımı', 'Altın Takımı']
 CATEGORIES = ('karisik', 'carpan', 'kat', 'asal')
 
@@ -37,10 +38,49 @@ def options_from(data):
     seconds = number if type(number) is int and number in (15, 20, 30, 45) else 20
     number = data.get('teams')
     teams = number if type(number) is int and number in (2, 3, 4) else 2
-    return {'mode': mode, 'category': cat, 'count': count, 'seconds': seconds, 'teams': teams}
+    source = 'custom' if data.get('source') == 'custom' else 'hazir'
+    return {'mode': mode, 'category': cat, 'count': count, 'seconds': seconds, 'teams': teams,
+            'source': source}
 
 
-def build_questions(config):
+def validate_custom_questions(raw):
+    """Öğretmenin sorularını yalnızca sunucuda denetle; doğru yanıtları öğrenciye sızdırma."""
+    if not isinstance(raw, list) or not (1 <= len(raw) <= MAX_CUSTOM_QUESTIONS):
+        raise ValueError(f'1 ile {MAX_CUSTOM_QUESTIONS} arasında kendi sorunuzu ekleyin.')
+    cleaned = []
+    for i, item in enumerate(raw, start=1):
+        if not isinstance(item, dict):
+            raise ValueError(f'{i}. soru geçersiz.')
+        title, choices, answer, explain = (item.get('text'), item.get('options'),
+                                            item.get('correct'), item.get('explain', ''))
+        if not isinstance(title, str) or not (3 <= len(title.strip()) <= 280):
+            raise ValueError(f'{i}. sorunun metni 3–280 karakter olmalıdır.')
+        if not isinstance(choices, list) or len(choices) != 4 or any(
+                not isinstance(opt, str) or not (1 <= len(opt.strip()) <= 100) for opt in choices):
+            raise ValueError(f'{i}. soru için dört şık (en fazla 100 karakter) girin.')
+        opts = [opt.strip() for opt in choices]
+        if len(set(opt.casefold() for opt in opts)) != 4:
+            raise ValueError(f'{i}. sorunun cevap seçenekleri farklı olmalıdır.')
+        if type(answer) is not int or answer not in range(4):
+            raise ValueError(f'{i}. sorunun doğru seçeneğini A, B, C veya D olarak belirtin.')
+        if not isinstance(explain, str) or len(explain.strip()) > 240:
+            raise ValueError(f'{i}. sorunun açıklaması en fazla 240 karakter olmalıdır.')
+        cleaned.append({'text': title.strip(), 'options': opts, 'correct': answer,
+                        'explain': explain.strip()})
+    return cleaned
+
+
+def build_questions(config, custom_questions=None):
+    if config.get('source') == 'custom':
+        chosen = random.sample(custom_questions, min(config['count'], len(custom_questions)))
+        result = []
+        for q in chosen:
+            shuffle = list(range(4))
+            random.shuffle(shuffle)
+            result.append({'text': q['text'], 'options': [q['options'][j] for j in shuffle],
+                           'correct': shuffle.index(q['correct']), 'explain': q['explain'],
+                           'category': 'ozel'})
+        return result
     if config['category'] == 'karisik':
         pool = []
         for key in ('carpan', 'kat', 'asal'):
@@ -71,7 +111,11 @@ def room_code():
     raise RuntimeError('Oda kodu oluşturulamadı')
 
 
-def make_room(config, ws):
+def make_room(config, ws, submitted_questions=None):
+    custom_questions = (validate_custom_questions(submitted_questions)
+                        if config['source'] == 'custom' else None)
+    if custom_questions:
+        config['count'] = min(config['count'], len(custom_questions))
     if len(ROOMS) >= MAX_ROOMS:
         for code, room in list(ROOMS.items()):
             if time.monotonic() - room['last'] > 7200:
@@ -80,7 +124,8 @@ def make_room(config, ws):
             raise ValueError('Şu anda yeni oda açılamıyor.')
     code = room_code()
     room = {'code': code, 'host_token': secrets.token_urlsafe(26), 'host_ws': ws,
-            'players': {}, 'config': config, 'questions': build_questions(config),
+            'players': {}, 'config': config, 'custom_questions': custom_questions,
+            'questions': build_questions(config, custom_questions),
             'index': -1, 'status': 'lobby', 'answers': {}, 'end_monotonic': 0,
             'deadline_ms': 0, 'job': None, 'last': time.monotonic()}
     ROOMS[code] = room
@@ -217,7 +262,7 @@ async def reveal(room):
 
 
 async def api_websocket(request):
-    ws = web.WebSocketResponse(heartbeat=25, max_msg_size=2048)
+    ws = web.WebSocketResponse(heartbeat=25, max_msg_size=128 * 1024)
     await ws.prepare(request)
     affiliation = None
     try:
@@ -235,7 +280,7 @@ async def api_websocket(request):
                     if affiliation:
                         raise ValueError('Bu pencerede zaten bir odaya bağlısınız.')
                     config = options_from(data.get('config'))
-                    room = make_room(config, ws)
+                    room = make_room(config, ws, data.get('questions'))
                     affiliation = ('host', room['code'], room['host_token'])
                     await send_json(ws, {'type': 'created', 'code': room['code'], 'token': room['host_token']})
                     await publish(room)
@@ -312,7 +357,7 @@ async def api_websocket(request):
                         await reveal(room)
                     elif action == 'reset' and role == 'host':
                         cancel_job(room)
-                        room['questions'] = build_questions(room['config'])
+                        room['questions'] = build_questions(room['config'], room.get('custom_questions'))
                         room.update(index=-1, status='lobby', answers={}, deadline_ms=0)
                         for p in room['players'].values():
                             p['score'] = 0
