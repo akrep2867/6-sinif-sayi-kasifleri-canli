@@ -158,6 +158,17 @@ def cancel_job(room):
     room['job'] = None
 
 
+def all_active_players_answered(room):
+    """Soruyu, bağlı tüm öğrenciler cevapladığında erken tamamla.
+
+    Bağlantısı kopmuş öğrenciler soruyu gereksiz yere açık tutmaz;
+    sınıfta hiç aktif öğrenci kalmadıysa normal zaman aşımı sürer.
+    """
+    active = [token for token, player in room['players'].items()
+              if player['ws'] is not None and not player['ws'].closed]
+    return bool(active) and all(token in room['answers'] for token in active)
+
+
 async def question_timeout(room, index):
     try:
         await asyncio.sleep(room['config']['seconds'])
@@ -291,7 +302,10 @@ async def api_websocket(request):
                             await reveal(room)
                             continue
                         room['answers'][token] = {'choice': choice, 'remaining': remaining}
-                        await publish(room)
+                        if all_active_players_answered(room):
+                            await reveal(room)
+                        else:
+                            await publish(room)
                     elif action == 'next' and role == 'host':
                         await advance(room)
                     elif action == 'reveal' and role == 'host':
@@ -322,7 +336,10 @@ async def api_websocket(request):
                     room['host_ws'] = None
                 elif role == 'player' and token in room['players'] and room['players'][token]['ws'] is ws:
                     room['players'][token]['ws'] = None
-                await publish(room)
+                if room['status'] == 'question' and all_active_players_answered(room):
+                    await reveal(room)
+                else:
+                    await publish(room)
     return ws
 
 
