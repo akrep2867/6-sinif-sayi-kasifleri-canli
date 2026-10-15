@@ -160,6 +160,37 @@ a{color:#1d8b61}
 .reveal-chip{background:linear-gradient(135deg,rgba(255,201,128,.45),rgba(116,215,164,.35));border:1px solid rgba(95,150,102,.20);color:#3d5e43;box-shadow:0 12px 26px rgba(116,154,100,.14)}
 .reveal-chip small{color:#6f7f67}
 .score-note{color:#617c6e}
+
+/* ÖĞRETMENİN KENDİ SORULARI – yeşil/turuncu tema */
+.custom-bank{margin:25px 0;padding:20px;border-radius:22px;background:rgba(235,255,241,.72);border:1px solid rgba(56,136,80,.24);box-shadow:0 12px 25px rgba(58,114,68,.1)}
+.custom-bank[hidden]{display:none!important}
+.custom-bank h3{margin:4px 0 8px;color:#195b3a;font-size:22px}
+.custom-bank p{color:#416d52;font-size:14px;line-height:1.55}
+.custom-toolbar{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}
+.custom-toolbar .btn{font-size:13px;min-height:42px;padding:9px 12px}
+.custom-bank .btn{border-radius:12px}
+.custom-bank .btn.dark{background:#e6f6e9!important;color:#245e3c!important;border:1px solid #8ecda4!important}
+.custom-bank .btn.gold{background:linear-gradient(120deg,#ffc77b,#ffa453)!important;color:#55380f!important}
+.custom-bank .field{margin:0}
+.custom-bank .field label{display:block;margin:0 0 6px;font-weight:850;color:#285f44;font-size:13px}
+.custom-bank input:not([type=file]),.custom-bank textarea,.custom-bank select{display:block;width:100%;background:#fffefa!important;color:#204a34!important;border:1px solid #a6c9ae!important;border-radius:11px;padding:11px 12px;font:inherit}
+.custom-bank textarea{min-height:86px;resize:vertical}
+.custom-bank input:focus,.custom-bank textarea:focus,.custom-bank select:focus{outline:3px solid #ffca73;outline-offset:1px}
+.custom-editor{padding:16px;border-radius:16px;border:1px solid #b8d7be;background:rgba(255,255,255,.72);display:grid;gap:13px}
+.custom-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.custom-list{display:grid;gap:9px;margin:13px 0 18px;max-height:300px;overflow-y:auto}
+.custom-listitem{background:#fffefa;border:1px solid #cce2ce;border-radius:13px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.custom-listitem p{margin:4px 0 0;font-size:12px}
+.custom-listitem strong{color:#24543c;font-size:14px}
+.custom-list-actions{display:flex;gap:7px;flex-shrink:0}
+.custom-list-actions button{border:1px solid #c9e1ce;border-radius:8px;background:#e9f7eb;color:#286141;font-weight:800;padding:7px 9px;cursor:pointer;font-size:12px}
+.custom-list-actions button.del{background:#fff0df;color:#a05a24;border-color:#f3c89c}
+.custom-hint{padding:12px;background:#e8f5e6;border-radius:12px;color:#3b6947!important;font-size:13px}
+.custom-count{font-size:14px;font-weight:900;color:#256746;margin:15px 0 6px}
+.custom-note{min-height:23px;color:#95611d;font-weight:800;font-size:13px}
+.custom-bank summary{font-weight:900;color:#226342;padding:11px 0;cursor:pointer}
+@media(max-width:600px){.custom-bank{padding:13px}.custom-two{grid-template-columns:1fr}.custom-listitem{align-items:flex-start;flex-direction:column}.custom-toolbar .btn{flex:1}}
+
 </style></head>
 <body><div class="shell"><header class="head"><a class="logo" href="/" title="Sayı Kâşifleri Ana Sayfa"><span class="mark">✦</span><span><span style="display:block">SAYI KÂŞİFLERİ <span style="color:var(--mint)">CANLI</span></span><span class="brand-sub">DOĞA KOLEJİ • 6. SINIF MATEMATİK</span></span></a><div class="head-tools"><button id="sound-toggle" type="button" class="sound-toggle" aria-label="Ses efektlerini aç" aria-pressed="false" title="Ses efektleri kapalı">🔇</button><span class="status"><span id="connection-dot" class="dot"></span><span id="connection-text">Bağlanıyor...</span></span></div></header><main id="app" class="main" aria-live="polite"></main><footer class="foot">✦ Çarpanlar • Katlar • Asal Sayılar &nbsp;|&nbsp; Eğitim amaçlı sınıf yarışması</footer></div>
 <script>
@@ -171,10 +202,12 @@ const qs=new URLSearchParams(location.search),prefill=(qs.get('kod')||'').replac
 const ESC=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>new Intl.NumberFormat('tr-TR').format(n||0);
 const modeLabel=c=>c.mode==='takim'?'Takımlar Yarışıyor':'Herkes Bireysel Yarışıyor';
-const categoryLabel=c=>({karisik:'Karışık Konular',carpan:'Çarpanlar',kat:'Katlar',asal:'Asal Sayılar'})[c.category]||'Karışık';
+const categoryLabel=c=>c.source==='custom'?'Öğretmenin Soruları':(({karisik:'Karışık Konular',carpan:'Çarpanlar',kat:'Katlar',asal:'Asal Sayılar'})[c.category]||'Karışık');
 const medal=r=>r===1?'🥇':r===2?'🥈':r===3?'🥉':`${r}.`;
 const symbols=['▲','◆','●','■'];
 let soundsOn=false,audioCtx=null,seenCelebration='';
+let customQuestions=[],editingCustom=-1;
+try{const saved=JSON.parse(localStorage.getItem('sk_teacher_questions_v1')||'[]');if(Array.isArray(saved))customQuestions=saved.slice(0,60).map(q=>q).filter(q=>q&&typeof q==='object')}catch{}
 function playTone(freq=550,dur=.13,delay=0){if(!soundsOn)return;try{const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;if(!audioCtx)audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume();const at=audioCtx.currentTime+delay;const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type='sine';osc.frequency.setValueAtTime(freq,at);gain.gain.setValueAtTime(.0001,at);gain.gain.exponentialRampToValueAtTime(.07,at+.02);gain.gain.exponentialRampToValueAtTime(.0001,at+dur);osc.connect(gain);gain.connect(audioCtx.destination);osc.start(at);osc.stop(at+dur+.01);}catch{}}
 function soundResult(state){if(!soundsOn)return;if(state.status==='finished'){[392,494,587,784].forEach((f,i)=>playTone(f,.21,i*.13));return}if(state.role==='host'||state.me?.earned>0){[540,680,810].forEach((f,i)=>playTone(f,.14,i*.10))}else{playTone(320,.22)}}
 function celebrate(isFinal=false){if(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return;const previous=document.getElementById('celebration-layer');if(previous)previous.remove();const layer=document.createElement('div');layer.id='celebration-layer';layer.setAttribute('aria-hidden','true');document.body.appendChild(layer);const colors=['#ffdb81','#ff6c94','#5cf3d3','#b8a5ff','#ffffff','#4fbcff','#ffad52'];const n=isFinal?78:40;for(let i=0;i<n;i++){const e=document.createElement('i');e.className='confetti';const r=(i*0.6180339887)%1;const x=(i*0.754877666)%1;e.style.setProperty('--x',(x*100).toFixed(1)+'%');e.style.setProperty('--w',(6+(i%5)*2)+'px');e.style.setProperty('--h',(8+(i%4)*3)+'px');e.style.setProperty('--r',i%3===0?'50%':'2px');e.style.setProperty('--col',colors[i%colors.length]);e.style.setProperty('--rot',(i*31%360)+'deg');e.style.setProperty('--dx',((r-.5)*280).toFixed(0)+'px');e.style.setProperty('--turn',(i%2?480:-480)+'deg');e.style.setProperty('--dur',(2.4+(i%8)*.16)+'s');e.style.setProperty('--delay',((i%11)*.045)+'s');layer.appendChild(e)}setTimeout(()=>{if(layer.isConnected)layer.remove()},4800)}
@@ -203,6 +236,141 @@ function connStatus(){document.getElementById('connection-dot').className='dot'+
 function send(obj){if(!ws||ws.readyState!==1){error='Bağlantı kesildi. İnternet veya Wi-Fi ağını kontrol edin.';render();return;}ws.send(JSON.stringify(obj));}
 function alertHTML(){return error?`<div class="notice" role="alert">⚠️ ${ESC(error)}</div>`:''}
 function nav(){return `<button class="back" data-click="back">← Ana sayfa</button>`}
+
+function validateTeacherQuestion(q){
+ if(!q||typeof q.text!=='string'||q.text.trim().length<3||q.text.trim().length>280)throw Error('Soru metni 3–280 karakter olmalı.');
+ if(!Array.isArray(q.options)||q.options.length!==4||q.options.some(x=>typeof x!=='string'||!x.trim()||x.trim().length>100))throw Error('Dört seçenek de dolu olmalı (en fazla 100 karakter).');
+ if(new Set(q.options.map(x=>x.trim().toLocaleLowerCase('tr-TR'))).size!==4)throw Error('Dört seçenek birbirinden farklı olmalı.');
+ if(!Number.isInteger(q.correct)||q.correct<0||q.correct>3)throw Error('Doğru şıkkı A, B, C veya D olarak işaretleyin.');
+ if(typeof q.explain!=='string'||q.explain.trim().length>240)throw Error('Açıklama en fazla 240 karakter olmalı.');
+ return {text:q.text.trim(),options:q.options.map(x=>x.trim()),correct:q.correct,explain:q.explain.trim()};
+}
+function saveTeacherQuestions(){try{localStorage.setItem('sk_teacher_questions_v1',JSON.stringify(customQuestions))}catch{teacherMessage('Tarayıcı soruları saklayamadı. Soruları dosya olarak dışa aktarın.');}}
+function teacherMessage(message){const el=app.querySelector('#custom-note');if(el)el.textContent=message;}
+function customBankMarkup(){return "<div class='custom-bank' id='custom-bank' hidden>"+
+ "<h3>✏️ Kendi Sorularım</h3>"+
+ "<p>Sorularını yaz, doğru seçeneği belirle veya Excel'den CSV dosyası yükle. Bankan bu tarayıcıda saklanır; başka cihazda kullanmak için <strong>Dışa Aktar</strong> ile yedekleyebilirsin.</p>"+
+ "<div class='custom-toolbar'><label for='custom-file' class='btn dark' style='cursor:pointer;display:inline-flex;align-items:center'>📂 CSV / JSON Yükle</label>"+
+ "<input type='file' id='custom-file' accept='.csv,.json,text/csv,application/json' hidden>"+
+ "<button type='button' class='btn dark' data-click='custom-template'>⬇️ Örnek CSV</button>"+
+ "<button type='button' class='btn dark' data-click='custom-export'>💾 Soruları Dışa Aktar</button></div>"+
+ "<div id='custom-note' class='custom-note' role='status' aria-live='polite'></div>"+
+ "<div id='custom-count' class='custom-count'></div><div id='custom-question-list' class='custom-list'></div>"+
+ "<details id='custom-editor-details' open><summary>➕ Soru Ekle / Düzenle</summary>"+
+ "<div class='custom-editor'><div class='field'><label for='custom-text'>Soru metni</label><textarea id='custom-text' maxlength='280' placeholder='Örnek: 24 sayısının çarpanlarından biri hangisidir?'></textarea></div>"+
+ "<div class='custom-two'><div class='field'><label for='custom-a'>A seçeneği</label><input id='custom-a' maxlength='100' placeholder='A'></div>"+
+ "<div class='field'><label for='custom-b'>B seçeneği</label><input id='custom-b' maxlength='100' placeholder='B'></div>"+
+ "<div class='field'><label for='custom-c'>C seçeneği</label><input id='custom-c' maxlength='100' placeholder='C'></div>"+
+ "<div class='field'><label for='custom-d'>D seçeneği</label><input id='custom-d' maxlength='100' placeholder='D'></div></div>"+
+ "<div class='custom-two'><div class='field'><label for='custom-correct'>Doğru seçenek</label><select id='custom-correct'><option value='0'>A</option><option value='1'>B</option><option value='2'>C</option><option value='3'>D</option></select></div>"+
+ "<div class='field'><label for='custom-explain'>Kısa açıklama (isteğe bağlı)</label><textarea id='custom-explain' maxlength='240' placeholder='Çözüm veya ipucu'></textarea></div></div>"+
+ "<div class='custom-toolbar'><button type='button' class='btn gold' data-click='custom-save' id='custom-save'>➕ SORUYU EKLE</button>"+
+ "<button type='button' class='btn dark' data-click='custom-clear'>🧹 TEMİZLE</button></div></div></details>"+
+ "<p class='custom-hint'>💡 Yalnızca <strong>\"Kendi Sorularım\"</strong> seçiliyken eklediğin sorular yarışmada kullanılır. Bir yarışmada en fazla 20 soru seçilebilir, bankanda en fazla 60 soru saklanır.</p></div>";
+}
+function renderTeacherBank(){
+ const count=app.querySelector('#custom-count'),list=app.querySelector('#custom-question-list');
+ if(!count||!list)return;
+ count.textContent='📚 Kayıtlı soru: '+customQuestions.length+' / 60';
+ list.innerHTML=customQuestions.length?customQuestions.map((q,i)=>
+ "<div class='custom-listitem'><div><strong>"+(i+1)+". "+ESC(q.text)+"</strong>"+
+ "<p>✅ "+'ABCD'[q.correct]+") "+ESC(q.options[q.correct])+"</p></div>"+
+ "<div class='custom-list-actions'><button type='button' data-click='custom-edit' data-index='"+i+"'>✏️ Düzenle</button>"+
+ "<button type='button' class='del' data-click='custom-remove' data-index='"+i+"'>🗑️ Sil</button></div></div>").join(''):
+ "<p class='custom-hint'>Henüz soru eklemedin. Aşağıdaki formdan ilk sorunu yazabilir veya örnek CSV şablonuyla toplu yükleyebilirsin.</p>";
+}
+function clearTeacherEditor(){
+ editingCustom=-1;
+ for(const id of ['custom-text','custom-a','custom-b','custom-c','custom-d','custom-explain']){const el=app.querySelector('#'+id);if(el)el.value='';}
+ const correct=app.querySelector('#custom-correct');if(correct)correct.value='0';
+ const btn=app.querySelector('#custom-save');if(btn)btn.textContent='➕ SORUYU EKLE';
+}
+function openTeacherEditor(index){
+ const q=customQuestions[index];if(!q)return;editingCustom=index;
+ const ids=['custom-a','custom-b','custom-c','custom-d'];
+ app.querySelector('#custom-text').value=q.text;
+ ids.forEach((id,i)=>app.querySelector('#'+id).value=q.options[i]);
+ app.querySelector('#custom-correct').value=String(q.correct);
+ app.querySelector('#custom-explain').value=q.explain;
+ app.querySelector('#custom-save').textContent='✅ DEĞİŞİKLİĞİ KAYDET';
+ app.querySelector('#custom-editor-details').open=true;
+ app.querySelector('#custom-editor-details').scrollIntoView({behavior:'smooth',block:'start'});
+ teacherMessage((index+1)+'. soruyu düzenliyorsun.');
+}
+function addTeacherQuestion(){
+ try{
+  const q=validateTeacherQuestion({
+   text:app.querySelector('#custom-text').value,
+   options:['custom-a','custom-b','custom-c','custom-d'].map(id=>app.querySelector('#'+id).value),
+   correct:Number(app.querySelector('#custom-correct').value),
+   explain:app.querySelector('#custom-explain').value
+  });
+  const editing=editingCustom>=0;
+  if(editing)customQuestions[editing]=q;
+  else{if(customQuestions.length>=60)throw Error('En fazla 60 soru kaydedebilirsin.');customQuestions.push(q);}
+  saveTeacherQuestions();renderTeacherBank();clearTeacherEditor();
+  teacherMessage(editing?'✅ Soru güncellendi.':'✅ Yeni soru eklendi.');
+ }catch(e){teacherMessage('⚠️ '+e.message);}
+}
+function parseTeacherCsv(raw){
+ const txt=String(raw).replace(/^\uFEFF/,'');const header=txt.split(/\r?\n/,1)[0];
+ const delim=header.split(';').length>=7?';':',';
+ const rows=[],row=[];let cell='',quoted=false;
+ for(let i=0;i<txt.length;i++){
+  const c=txt[i];
+  if(quoted){if(c==='"'&&txt[i+1]==='"'){cell+='"';i++}else if(c==='"')quoted=false;else cell+=c}
+  else if(c==='"')quoted=true;
+  else if(c===delim){row.push(cell);cell=''}
+  else if(c==='\n'){row.push(cell.replace(/\r$/,''));rows.push(row.splice(0));cell=''}
+  else cell+=c;
+ }
+ if(quoted)throw Error('CSV dosyasında kapanmamış tırnak var.');
+ row.push(cell.replace(/\r$/,''));if(row.some(x=>x.trim()))rows.push(row);
+ const normalized=x=>String(x).trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i').toLowerCase();
+ const keys=['soru','a','b','c','d','dogru','aciklama'];
+ const head=rows.shift();
+ if(!head)throw Error('CSV dosyası boş.');
+ const indices=keys.map(k=>head.findIndex(x=>normalized(x)===k));
+ if(indices.slice(0,6).some(x=>x<0))throw Error('CSV başlıkları Soru;A;B;C;D;Dogru;Aciklama olmalı.');
+ return rows.filter(r=>r.some(x=>x.trim())).map((r,i)=>{
+  const get=j=>indices[j]<0?'':String(r[indices[j]]||'').trim();
+  const label=get(5).toUpperCase();const correct=/^[ABCD]$/.test(label)?'ABCD'.indexOf(label):/^[1-4]$/.test(label)?Number(label)-1:-1;
+  if(correct<0)throw Error((i+2)+'. satırın doğru cevabı A–D veya 1–4 olmalı.');
+  return validateTeacherQuestion({text:get(0),options:[get(1),get(2),get(3),get(4)],correct,explain:get(6)});
+ });
+}
+function downloadTeacherText(name,text,mime){
+ const blob=new Blob([text],{type:mime});const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+async function importTeacherFile(input){
+ const file=input.files?.[0];if(!file)return;
+ try{
+  if(file.size>160000)throw Error('Dosya en fazla 160 KB olabilir.');
+  const raw=await file.text();let incoming;
+  if(/\.json$/i.test(file.name)){let decoded=JSON.parse(raw);if(!Array.isArray(decoded))throw Error('JSON dosyası soru dizisi olmalı.');incoming=decoded.map(validateTeacherQuestion);}
+  else if(/\.csv$/i.test(file.name))incoming=parseTeacherCsv(raw);
+  else throw Error('Yalnızca CSV veya JSON dosyası yükleyebilirsin.');
+  if(!incoming.length)throw Error('Dosyada soru bulunamadı.');
+  if(customQuestions.length+incoming.length>60)throw Error('Dosyadaki sorularla birlikte en fazla 60 soru olabilir.');
+  customQuestions.push(...incoming);
+  saveTeacherQuestions();renderTeacherBank();teacherMessage('✅ '+incoming.length+' soru yüklendi. Toplam: '+customQuestions.length+'.');
+ }catch(e){teacherMessage('⚠️ Dosya yüklenemedi: '+e.message)}finally{input.value='';}
+}
+function exportTeacherCsvExample(){
+ const csv='\uFEFF'+'Soru;A;B;C;D;Dogru;Aciklama\r\n'+
+ '"24 sayısının çarpanı hangisidir?";5;6;7;11;B;"6 çarpandır, çünkü 24 ÷ 6 = 4."\r\n'+
+ '"Aşağıdaki sayılardan hangisi asaldır?";9;15;17;21;C;"17 asal sayıdır."\r\n';
+ downloadTeacherText('sayi_kasifleri_soru_sablonu.csv',csv,'text/csv;charset=utf-8');
+}
+function toggleTeacherQuestionSource(){
+ const custom=app.querySelector('#question-source')?.value==='custom';
+ const bank=app.querySelector('#custom-bank');if(bank)bank.hidden=!custom;
+ const cat=app.querySelector('#category-field');if(cat)cat.hidden=custom;
+ if(custom)renderTeacherBank();
+}
+
 function renderHome(){
 app.innerHTML=`<section class="hero"><div><span class="pill">⚡ GERÇEK ZAMANLI SINIF YARIŞMASI</span><h1>Sayıların<br><span>Yıldızı Sen Ol!</span></h1><p>Öğretmenin tahtadan başlattığı yarışmaya kendi telefonundan katıl. Herkes aynı anda cevaplasın, en hızlı doğrular puanları toplasın!</p><div class="stat-grid" style="justify-content:flex-start"><span class="tag">📚 56 soru</span><span class="tag">🏆 Canlı sıralama</span><span class="tag">📱 Telefonla katılım</span></div></div><div class="hero-art"><div class="orbit"><div class="planet">∑</div></div><span class="orb-label l1">🪐 Çarpanlar</span><span class="orb-label l2">🚀 Asal Sayılar</span></div></section>
 ${alertHTML()}<div class="grid">
