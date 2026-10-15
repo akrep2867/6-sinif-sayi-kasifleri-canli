@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111432" />
+  <meta name="description" content="6. sınıf çarpanlar, katlar ve asal sayılar konularını eğlenceli sorularla öğreten çevrimdışı matematik oyunu." />
+  <title>Sayı Kâşifleri | 6. Sınıf Matematik Oyunu</title>
+  <style>
+    :root {
+      --navy: #0b1028; --navy2: #111638; --ink:#fbfcff; --muted:#b9c2e5;
+      --mint:#60e9ce; --yellow:#ffdc79; --pink:#fb82b8; --purple:#a99bff;
+      --line:rgba(220,231,255,.15); --panel:rgba(27,34,75,.79);
+      --shadow:0 22px 70px rgba(2,3,27,.34);
+      --radius:24px;
+    }
+    * {box-sizing:border-box}
+    html {min-height:100%; scroll-behavior:smooth}
+    body {min-height:100vh;margin:0;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+      background:radial-gradient(ellipse at 5% 5%,rgba(90,69,179,.28),transparent 42%),
+                 radial-gradient(ellipse at 90% 55%,rgba(22,114,143,.19),transparent 42%),
+                 linear-gradient(140deg,#090d24,#121735 54%,#10102b);overflow-x:hidden}
+    body:before {content:"";position:fixed;z-index:-1;inset:0;pointer-events:none;opacity:.47;
+      background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#c1ddff 1px,transparent 1.5px);
+      background-size:83px 83px,137px 137px;background-position:8px 14px,49px 63px}
+    button {font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    button:focus-visible {outline:3px solid #ffdc79;outline-offset:4px}
+    button:disabled {cursor:default}
+    .wrap {width:min(1100px,calc(100% - 38px));margin:0 auto}
+    .topbar {min-height:84px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+      border-bottom:1px solid var(--line);position:relative;z-index:5}
+    .brand {display:flex;align-items:center;gap:13px;min-width:0}
+    .brand-icon {height:39px;width:39px;display:grid;place-items:center;border-radius:14px;font-weight:900;font-size:22px;
+      background:linear-gradient(135deg,#74f4d7,#9eabff);color:#0c1934;box-shadow:0 5px 18px rgba(84,231,208,.18)}
+    .brand-copy {display:flex;flex-direction:column;gap:2px}
+    .school {font-size:12px;font-weight:850;letter-spacing:1.5px;color:#7ceccf}
+    .grade {font-size:13px;color:#c2c9ed;font-weight:650}
+    .tools {display:flex;align-items:center;gap:9px}
+    .tool {display:flex;align-items:center;justify-content:center;gap:7px;color:#e7edff;border:1px solid #535d87;
+      background:#22294e;border-radius:12px;min-height:39px;padding:0 12px;font-size:13px;font-weight:750}
+    .tool:hover {background:#2c3562}
+    .tool .ico {font-size:17px;line-height:1}
+    .main {padding-top:38px;padding-bottom:64px;min-height:calc(100vh - 84px)}
+    .hero {text-align:center;position:relative;margin:2px auto 34px;max-width:800px}
+    .eyebrow {color:#79eed0;font-size:12px;letter-spacing:2.5px;font-weight:900;margin-bottom:10px}
+    .hero h1 {font-size:clamp(38px,7vw,73px);letter-spacing:-2px;line-height:1.05;margin:0 0 14px;
+      text-shadow:0 8px 30px rgba(0,0,0,.2)}
+    .gradient-text {background:linear-gradient(90deg,#ffe38e,#ffa6c9 43%,#94c7ff 80%,#8ef6d4);
+      -webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p {color:#c7d0ec;font-size:clamp(15px,2.2vw,19px);line-height:1.55;margin:0 auto;max-width:640px}
+    .orb {position:absolute;pointer-events:none;filter:drop-shadow(0 16px 14px rgba(0,0,0,.24));animation:float 4.5s ease-in-out infinite}
+    .orb.left{font-size:49px;top:6px;left:0;transform:rotate(-14deg)}
+    .orb.right{font-size:55px;top:19px;right:0;animation-delay:-2.1s}
+    @keyframes float {0%,100%{translate:0 0}50%{translate:0 -11px}}
+    .stats {display:flex;justify-content:center;align-items:center;gap:11px;flex-wrap:wrap;margin:23px 0 34px}
+    .pill {border:1px solid var(--line);background:rgba(31,39,82,.74);color:#eaf0ff;padding:10px 16px;
+      border-radius:999px;font-size:13px;font-weight:750;display:flex;gap:8px;align-items:center}
+    .section-head {display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 17px}
+    .section-head h2 {font-size:21px;letter-spacing:-.35px;margin:0}
+    .section-head span {color:var(--muted);font-size:13px}
+    .world-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+    .world {text-align:left;position:relative;isolation:isolate;overflow:hidden;min-height:286px;padding:24px 23px 22px;border:1px solid rgba(255,255,255,.19);
+      border-radius:var(--radius);background:var(--panel);box-shadow:var(--shadow);color:var(--ink);transition:transform .2s,box-shadow .2s,border-color .2s;display:flex;flex-direction:column}
+    .world:hover {transform:translateY(-5px);box-shadow:0 26px 55px rgba(0,0,0,.42);border-color:rgba(255,255,255,.36)}
+    .world:before {content:"";position:absolute;z-index:-1;inset:0;opacity:.82;background:radial-gradient(ellipse at 100% 0%,var(--tint),transparent 58%)}
+    .world.orange{--accent:#ffcc84;--tint:rgba(240,146,62,.24)}
+    .world.teal{--accent:#6aebd7;--tint:rgba(34,216,187,.23)}
+    .world.violet{--accent:#bca9ff;--tint:rgba(144,89,251,.25)}
+    .planet {font-size:64px;line-height:1;margin:2px 0 22px;display:block;filter:drop-shadow(0 13px 14px rgba(0,0,0,.22))}
+    .world .tag {display:inline-block;color:var(--accent);font-weight:850;font-size:11px;letter-spacing:1.35px;margin-bottom:8px}
+    .world h3 {font-size:22px;letter-spacing:-.4px;line-height:1.22;margin:0 0 8px}
+    .world p {color:#c2c9e6;font-size:13px;line-height:1.5;margin:0 0 18px;max-width:240px}
+    .world-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .world-foot .start {color:#111730;background:var(--accent);font-size:13px;font-weight:900;border-radius:11px;padding:9px 14px}
+    .world-foot .done{font-size:13px;color:#ffdc79;font-weight:850;white-space:nowrap}
+    .mix {display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:116px;
+      margin-top:19px;padding:20px 27px;border:1px solid rgba(159,164,255,.35);border-radius:23px;
+      background:linear-gradient(105deg,rgba(65,63,124,.71),rgba(34,59,99,.73));color:var(--ink);width:100%;text-align:left}
+    .mix:hover{border-color:#a9b7ff;background:linear-gradient(105deg,rgba(80,75,149,.83),rgba(41,73,117,.83))}
+    .mix-left{display:flex;align-items:center;gap:19px}
+    .mix-emoji {font-size:43px}
+    .mix h3{font-size:20px;margin:0 0 5px}
+    .mix p{margin:0;color:#c9d2f0;font-size:13px;line-height:1.35}
+    .mix .arrow{border-radius:12px;background:#ece4ff;color:#232146;padding:10px 15px;font-weight:850;font-size:14px;white-space:nowrap}
+    .footnote {text-align:center;margin:32px 0 0;color:#939fc8;font-size:12px;line-height:1.6}
+    .game {max-width:890px;margin:0 auto}
+    .game-nav {display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px}
+    .back {border:1px solid var(--line);border-radius:13px;background:rgba(28,35,73,.85);color:#e7eeff;
+      padding:10px 15px;font-weight:750;font-size:13px}
+    .back:hover{background:#303860}
+    .mini-title{font-weight:800;color:#dce4ff;font-size:14px;text-align:right}
+    .hud {border:1px solid var(--line);border-radius:20px;background:rgba(26,32,69,.76);
+      padding:17px 21px;display:grid;grid-template-columns:1fr auto auto;gap:24px;align-items:center;margin-bottom:22px}
+    .hud-label {font-size:12px;color:#b4c0e6;font-weight:800;letter-spacing:.4px;margin-bottom:9px}
+    .track{width:100%;height:12px;background:#343a65;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+    .track span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#5ce1c7,#79bcff);transition:width .32s}
+    .hud-n {font-weight:900;font-size:23px;line-height:1;color:#fff}
+    .hearts {font-size:22px;letter-spacing:2px;white-space:nowrap}
+    .panel {padding:clamp(21px,4vw,38px);border:1px solid rgba(219,230,255,.17);border-radius:29px;
+      background:linear-gradient(144deg,rgba(30,37,79,.96),rgba(19,26,61,.96));box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .panel:before{position:absolute;content:"";pointer-events:none;width:270px;height:270px;right:-170px;top:-165px;
+      border-radius:50%;background:rgba(132,119,255,.13);filter:blur(8px)}
+    .question-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:19px}
+    .qbadge {font-size:11px;font-weight:900;color:#182341;background:#9ee7d8;border-radius:999px;padding:8px 13px;letter-spacing:.9px}
+    .challenge {font-size:12px;letter-spacing:.6px;color:#ffd98c;font-weight:850}
+    .q-title {font-size:clamp(25px,4.2vw,36px);font-weight:900;line-height:1.35;letter-spacing:-.7px;margin:0 0 26px;max-width:720px}
+    .answers{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .answer{display:flex;align-items:center;gap:13px;min-height:86px;padding:16px 17px;text-align:left;
+      border:2px solid #505b89;background:#252e62;color:#fff;border-radius:18px;font-size:clamp(16px,2vw,20px);
+      font-weight:850;transition:transform .13s,border-color .13s,background .13s}
+    .answer:not(:disabled):hover {transform:translateY(-2px);background:#303b75;border-color:#91b9ff}
+    .answer .letter {display:grid;place-items:center;min-width:36px;height:36px;border-radius:11px;
+      background:rgba(255,255,255,.11);color:#e8edff;font-size:14px;font-weight:900}
+    .answer.correct {border-color:#6beacb;background:rgba(45,139,119,.30)}
+    .answer.wrong {border-color:#ff8caa;background:rgba(161,56,89,.28)}
+    .answer.neutral {opacity:.62}
+    .answer.correct .letter{background:#66e7c7;color:#142c34}
+    .answer.wrong .letter{background:#ff9ab0;color:#3a1723}
+    .bottomrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:23px;min-height:38px}
+    .hintbtn {background:none;border:1px dashed #6e78a5;border-radius:11px;color:#ffdf99;padding:9px 13px;font-weight:750;font-size:13px}
+    .hintbtn:hover {background:rgba(255,255,255,.07)}
+    .micro {color:#9eadd1;font-size:12px}
+    .hint {margin-top:16px;border:1px solid rgba(255,215,131,.34);border-radius:14px;padding:12px 16px;
+      background:rgba(134,102,53,.18);font-size:14px;color:#ffe9ba;line-height:1.65}
+    .feedback {border:1px solid rgba(114,233,197,.27);background:rgba(33,84,77,.25);padding:18px 20px;
+      border-radius:18px;margin-top:23px;display:flex;justify-content:space-between;align-items:center;gap:22px}
+    .feedback.incorrect {border-color:rgba(255,150,180,.32);background:rgba(115,51,80,.18)}
+    .feedback .flabel {font-size:18px;font-weight:900;margin:0 0 5px}
+    .feedback .desc {font-size:14px;color:#d6e4f8;line-height:1.65;margin:0}
+    .next {background:#ffda83;color:#252036;border:0;border-radius:13px;padding:14px 20px;min-width:153px;font-weight:900;font-size:14px;white-space:nowrap;
+      box-shadow:0 6px 18px rgba(255,207,121,.18)}
+    .next:hover{background:#ffe7ad}
+    .result {max-width:710px;margin:12px auto 0;text-align:center}
+    .result .panel {padding:44px clamp(24px,4vw,50px)}
+    .result-icon {font-size:76px;line-height:1.3;filter:drop-shadow(0 9px 24px rgba(0,0,0,.26))}
+    .result h2{font-size:clamp(27px,4.7vw,43px);margin:9px 0 10px;letter-spacing:-1px}
+    .result p {color:#d0d8f4;line-height:1.65;max-width:490px;margin:0 auto 24px}
+    .stars {font-size:40px;letter-spacing:5px;color:#ffdf8b;margin:12px auto}
+    .scorecards{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:27px 0}
+    .scorecard{border:1px solid var(--line);background:rgba(31,40,84,.86);border-radius:16px;padding:17px 7px}
+    .scorecard strong{display:block;font-size:26px;color:#a5f5df;margin-bottom:5px}
+    .scorecard span{font-size:12px;color:#c5ccea;font-weight:750}
+    .actions{display:flex;justify-content:center;gap:11px;flex-wrap:wrap}
+    .primary{border:0;background:linear-gradient(105deg,#6ce4d4,#a5d4ff);border-radius:13px;
+      padding:15px 22px;color:#112138;font-weight:900;font-size:14px}
+    .primary:hover{filter:brightness(1.12)}
+    .secondary{border:1px solid #737db0;background:#292f62;border-radius:13px;padding:14px 21px;color:#f4f6ff;font-weight:850}
+    .secondary:hover{background:#38427b}
+    .result-details{color:#b0bce3;font-size:13px;margin-top:22px;line-height:1.5}
+    .confetti {position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:30}
+    .confetti i{position:absolute;top:-40px;width:10px;height:16px;opacity:.9;border-radius:2px;
+      animation:fall var(--dur,2s) linear forwards;left:var(--x);background:var(--c);rotate:var(--r)}
+    @keyframes fall{to {transform:translateY(110vh) rotate(800deg);opacity:0}}
+    body.big-text{font-size:115%}
+    body.big-text .q-title{font-size:clamp(30px,5vw,43px)}
+    body.big-text .answer{font-size:clamp(20px,2.5vw,24px)}
+    @media(max-width:760px){
+      .world-grid{grid-template-columns:1fr;gap:13px}.world{min-height:0;padding:21px 22px}.planet{font-size:47px;margin-bottom:13px}
+      .world h3{font-size:21px}.hero{margin-top:15px}.orb.left,.orb.right{opacity:.4;font-size:35px}
+      .hud{grid-template-columns:1fr auto;gap:12px;padding:15px}.hud .scorehud{grid-column:2;grid-row:1}
+      .hud .lifehud{grid-column:1;grid-row:2}.hud .progresshud{grid-column:1;grid-row:1}
+      .game-nav{margin-bottom:15px}
+    }
+    @media(max-width:550px){
+      .wrap{width:min(100% - 24px,1100px)}.topbar{min-height:73px}.school{font-size:10px;letter-spacing:1px}.grade{font-size:11px}
+      .brand-icon{width:34px;height:34px}.tools{gap:5px}.tool{padding:0 9px;min-height:35px}
+      .tool .optional{display:none}.main{padding-top:24px}.hero h1{letter-spacing:-1px}.hero p{font-size:15px}
+      .section-head h2{font-size:19px}.section-head span{font-size:11px}.stats{margin:20px 0 26px}
+      .mix{padding:17px}.mix-left{gap:12px}.mix-emoji{font-size:32px}.mix h3{font-size:17px}.mix .arrow{padding:10px 12px;font-size:12px}
+      .answers{grid-template-columns:1fr;gap:10px}.answer{min-height:65px;padding:11px 13px;font-size:17px;border-radius:14px}
+      .answer .letter{height:32px;min-width:32px}.panel{border-radius:22px}.q-title{margin-bottom:23px;font-size:25px}
+      .feedback{display:block}.feedback .next{width:100%;margin-top:18px}.hud{margin-bottom:16px}
+      .scorecards{gap:7px}.scorecard{padding:14px 4px}.scorecard strong{font-size:22px}.scorecard span{font-size:10px}
+      .mini-title{font-size:12px}
+    }
+
+    /* Takımlı bilgi yarışması: mevcut macera modundan bağımsızdır. */
+    .arena-cta{width:100%;min-height:132px;margin-top:16px;border:1px solid rgba(255,216,123,.55);border-radius:23px;
+      padding:22px 25px;color:var(--ink);background:linear-gradient(112deg,rgba(111,58,137,.78),rgba(42,62,117,.90) 60%,rgba(24,83,110,.70));
+      display:flex;align-items:center;justify-content:space-between;text-align:left;gap:20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .arena-cta:before{content:'✦';font-size:160px;opacity:.06;position:absolute;right:8%;top:-65px;pointer-events:none}
+    .arena-cta:hover{border-color:#ffde91;filter:brightness(1.1)}
+    .arena-cta .mix-emoji{font-size:56px}.arena-cta h3{font-size:24px;margin:0 0 6px;letter-spacing:-.35px}
+    .arena-cta p{font-size:14px;color:#e8dffb;line-height:1.55;margin:0}
+    .arena-cta .arrow{white-space:nowrap;background:#ffe195;color:#30214a;padding:12px 17px;border-radius:13px;font-size:14px;font-weight:950}
+    .arena-shell{max-width:1000px;margin:0 auto}.arena-hero{text-align:center;margin:12px 0 24px}
+    .arena-hero .arena-crown{font-size:55px;display:block;margin-bottom:10px}
+    .arena-hero h1{font-size:clamp(30px,5.5vw,52px);margin:0 0 9px;letter-spacing:-1px}
+    .arena-hero p{color:#cfd7ef;font-size:15px;line-height:1.6;max-width:640px;margin:0 auto}
+    .setup-panel{max-width:770px;margin:0 auto;padding:clamp(20px,4vw,36px)}
+    .setup-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:23px}
+    .field{display:flex;flex-direction:column;gap:8px;text-align:left}
+    .field label{font-size:12px;letter-spacing:.35px;font-weight:850;color:#cbd8f5}
+    .field select,.field input{width:100%;border-radius:12px;border:1px solid #6473a8;background:#171e4b;
+      color:#fff;padding:12px 13px;min-height:48px;font:inherit;font-size:15px;font-weight:700}
+    .field select:focus-visible,.field input:focus-visible{outline:3px solid #ffdf98;outline-offset:2px}
+    .setup-title{font-size:17px;margin:27px 0 14px;font-weight:900}
+    .team-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .team-input-field{background:rgba(30,40,83,.75);padding:15px;border-radius:15px;border:1px solid var(--line)}
+    .team-dot{width:12px;height:12px;border-radius:50%;display:inline-block;background:var(--team-color);box-shadow:0 0 13px var(--team-color);margin-right:6px}
+    .setup-summary{color:#dce7ff;background:rgba(55,80,116,.29);border:1px solid rgba(145,193,245,.21);padding:15px 17px;
+      border-radius:13px;font-size:13px;line-height:1.7;margin:24px 0 19px}
+    .start-arena{display:block;width:100%;border:0;border-radius:14px;background:linear-gradient(100deg,#ffe18c,#ffaacb);
+      color:#312239;padding:16px 24px;font-size:17px;font-weight:950}
+    .start-arena:hover{filter:brightness(1.07)}
+    .arena-scoreboard{display:grid;grid-template-columns:repeat(var(--team-count),minmax(0,1fr));gap:11px;margin-bottom:18px}
+    .team-score{position:relative;text-align:center;padding:15px 11px 13px;background:rgba(34,43,84,.85);border:2px solid rgba(172,189,239,.19);
+      border-radius:17px;min-width:0;transition:border-color .16s,transform .16s}
+    .team-score.active{border-color:var(--team-color);background:linear-gradient(165deg,rgba(51,60,111,.94),rgba(31,38,77,.97));transform:translateY(-2px)}
+    .team-score.leader:after{content:'👑';position:absolute;top:-14px;right:8px;font-size:21px}
+    .team-score .tname{display:block;color:#e8f1ff;font-size:13px;font-weight:900;overflow-wrap:anywhere;margin-bottom:8px}
+    .team-score .tname .team-dot{vertical-align:middle}
+    .team-score .points{font-size:clamp(24px,3.6vw,35px);color:var(--team-color);font-weight:950;line-height:1}
+    .team-score .right-count{display:block;margin-top:8px;color:#b2c0e6;font-size:11px;font-weight:750}
+    .arena-progress{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#bac6e6;font-size:13px;font-weight:850;margin:10px 2px 13px}
+    .arena-ready{text-align:center;padding:clamp(28px,5vw,52px) 22px}
+    .arena-ready-emoji{font-size:75px;display:block;margin-bottom:8px}
+    .arena-ready h2{font-size:clamp(27px,4vw,40px);margin:12px 0;color:#ffdc8e;overflow-wrap:anywhere}
+    .arena-ready p{font-size:16px;color:#cfdaf1;line-height:1.7;max-width:540px;margin:0 auto 24px}
+    .arena-ready .start-arena{max-width:390px;margin:0 auto}
+    .timerbar{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:21px}
+    .timer-box{display:flex;align-items:center;gap:11px;font-size:17px;font-weight:850}
+    .timer-number{display:grid;place-items:center;width:66px;height:66px;border:4px solid #70e8c9;background:#14274d;
+      border-radius:50%;color:#7cf6d5;font-size:27px;font-variant-numeric:tabular-nums;font-weight:950}
+    .timer-number.urgent{border-color:#ff8c9b;color:#ffadad;animation:beat .65s ease-in-out infinite alternate}
+    @keyframes beat{to{transform:scale(1.07)}}
+    .timer-meter{flex:1 1 170px;max-width:480px;height:13px;border-radius:99px;background:#343e73;overflow:hidden}
+    .timer-meter > span{height:100%;background:linear-gradient(90deg,#fb91a7,#ffdc8e,#6ce6d0);display:block;transition:width .13s linear}
+    .arena-pause{font-size:13px;background:#252e62;border:1px solid #7a86b7;color:#eaf1ff;border-radius:12px;padding:12px 16px;font-weight:900}
+    .arena-pause:hover{background:#34417d}
+    .arena-q-subtitle{font-size:14px;color:#ffdd94;font-weight:850;margin:0 0 13px;overflow-wrap:anywhere}
+    .arena-paused{padding:58px 20px;text-align:center}
+    .arena-paused h2{font-size:clamp(26px,5vw,40px);margin:8px 0 13px}
+    .arena-paused p{color:#c8d1ed;margin-bottom:23px}
+    .arena-bonus{color:#a8f9db;font-weight:950}
+    .leaderboard{display:grid;gap:12px;margin:24px 0}
+    .leader-row{display:flex;align-items:center;gap:15px;background:rgba(38,47,93,.8);border:1px solid rgba(255,255,255,.16);
+      padding:18px;border-radius:16px;text-align:left}
+    .leader-row.first{border-color:rgba(255,219,137,.75);background:rgba(102,79,106,.35)}
+    .leader-rank{font-size:25px;font-weight:950;min-width:40px;color:#ffe195}
+    .leader-details{flex:1;min-width:0}.leader-details strong{display:block;overflow-wrap:anywhere;font-size:18px}
+    .leader-details span{color:#b9c7e6;font-size:12px}.leader-score{font-size:26px;color:#8df5d3;font-weight:950;white-space:nowrap}
+    body.big-text .arena-ready h2{font-size:clamp(32px,4.5vw,46px)}
+    @media(max-width:760px){.arena-scoreboard{grid-template-columns:repeat(2,minmax(0,1fr))}.setup-grid{grid-template-columns:1fr 1fr}.team-inputs{grid-template-columns:1fr 1fr}}
+    @media(max-width:550px){.arena-cta{padding:18px 15px;gap:12px;min-height:120px}.arena-cta .mix-emoji{font-size:36px}
+      .arena-cta h3{font-size:19px}.arena-cta p{font-size:12px}.arena-cta .arrow{font-size:11px;padding:10px}
+      .setup-grid{grid-template-columns:1fr}.team-inputs{grid-template-columns:1fr}.arena-scoreboard{gap:8px}
+      .team-score{padding:13px 6px}.timerbar{gap:10px}.timer-meter{order:3;flex-basis:100%;max-width:none}
+      .timer-box{font-size:13px}.timer-number{height:54px;width:54px;font-size:23px}.leader-row{gap:9px;padding:12px}
+      .leader-details strong{font-size:15px}.leader-score{font-size:21px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar wrap">
+    <div class="brand" aria-label="Doğa Koleji 6. sınıf matematik">
+      <div class="brand-icon" aria-hidden="true">✦</div>
+      <div class="brand-copy"><div class="school">DOĞA KOLEJİ</div><div class="grade">6. SINIF · MATEMATİK</div></div>
+    </div>
+    <div class="tools">
+      <button class="tool" id="soundBtn" title="Sesi aç veya kapat" aria-label="Sesi aç veya kapat"><span class="ico">🔇</span><span class="optional">Ses kapalı</span></button>
+      <button class="tool" id="sizeBtn" title="Yazıları büyüt" aria-label="Yazıları büyüt"><span class="ico">A+</span><span class="optional">Büyüt</span></button>
+      <button class="tool" id="screenBtn" title="Tam ekran" aria-label="Tam ekran"><span class="ico">⛶</span></button>
+    </div>
+  </header>
+  <main class="main wrap" id="app" aria-live="polite"></main>
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+  <script>
+  (() => {
+    'use strict';
+    const STORAGE = 'sayi_kasifleri_v1';
+    const data = (() => { try { return JSON.parse(localStorage.getItem(STORAGE) || '{}') || {}; } catch { return {}; } })();
+    if (!data.best || typeof data.best !== 'object') data.best = {};
+    if (!data.stars || typeof data.stars !== 'object') data.stars = {};
+    const save = () => { try { localStorage.setItem(STORAGE, JSON.stringify(data)); } catch {} };
+    const shuffle = a => { const b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; };
+    const question = (text,correct,wrong,explain,hint,hard=false) => ({ text,correct,wrong,explain,hint,hard });
+    const BANK = {
+      carpan: [
+        question('24 sayısının çarpanı hangisidir?','6',['5','7','11'],'24 ÷ 6 = 4. Tam bölündüğü için 6, 24’ün çarpanıdır.','Çarpan, sayıyı kalansız böler.'),
+        question('18 sayısının çarpanı OLMAYAN sayı hangisidir?','5',['1','2','3'],'18 sayısı 1, 2 ve 3’e tam bölünür; 5’e tam bölünmez.','18’i hangi sayılara kalansız bölebilirsin?'),
+        question('30 sayısının kaç pozitif çarpanı vardır?','8',['6','7','9'],'Çarpanları 1, 2, 3, 5, 6, 10, 15 ve 30’dur. Toplam 8 tane.','30’u çarpan çiftleriyle bul: 1×30, 2×15, 3×10...',true),
+        question('28 sayısını oluşturan çarpan çifti hangisidir?','4 × 7',['3 × 9','2 × 13','5 × 6'],'4 × 7 = 28. Bu nedenle 4 ve 7, 28’in çarpanlarıdır.','İki sayıyı çarp ve sonucu 28 olanı seç.'),
+        question('36 sayısı hangi sayıya kalansız bölünür?','9',['5','7','11'],'36 ÷ 9 = 4; kalan sıfırdır.','9 ile bölmeyi düşün.'),
+        question('Çarpanlarla ilgili hangi ifade doğrudur?','1, her pozitif doğal sayının çarpanıdır.',['0, her sayının pozitif çarpanıdır.','2, bütün tek sayıların çarpanıdır.','5, bütün pozitif sayıların çarpanıdır.'],'Her pozitif doğal sayı 1’e kalansız bölünür.','1 sayısının bölme özelliğini düşün.'),
+        question('45 sayısının çarpanı OLMAYAN sayı hangisidir?','6',['1','5','9'],'45, 1’e, 5’e ve 9’a tam bölünür; 6’ya bölünmez.','45 = 5 × 9 olduğunu hatırla.'),
+        question('16 sayısının bütün pozitif çarpanları hangileridir?','1, 2, 4, 8, 16',['1, 2, 3, 8, 16','2, 4, 8, 16','1, 2, 4, 6, 16'],'16’nın pozitif çarpanları: 1, 2, 4, 8 ve 16.','1×16, 2×8 ve 4×4 çiftlerini kullan.',true),
+        question('20’nin kendisinden küçük en büyük pozitif çarpanı kaçtır?','10',['8','5','4'],'20 = 2 × 10. Kendisi dışında en büyük pozitif çarpanı 10’dur.','20’yi kendisi hariç en küçük hangi sayıya bölebilirsin?'),
+        question('42 sayısı aşağıdakilerden hangisine kalansız bölünür?','7',['4','5','8'],'42 ÷ 7 = 6, dolayısıyla 7 bir çarpandır.','6 × 7 = 42.'),
+        question('54 sayısının pozitif çarpanlarından biri hangisidir?','9',['4','5','7'],'54 ÷ 9 = 6 olduğu için 9, 54’ün çarpanıdır.','9 ile 6’nın çarpımını hatırla.'),
+        question('12 sayısının kaç pozitif çarpanı vardır?','6',['4','5','7'],'1, 2, 3, 4, 6, 12 olmak üzere 6 pozitif çarpanı vardır.','1×12, 2×6, 3×4 çiftlerini say.'),
+        question('48 = 6 × □ eşitliğinde kutuya hangi sayı gelir?','8',['6','7','9'],'6 × 8 = 48, bu nedenle 6 ve 8 sayıları 48’in çarpanlarıdır.','48’i 6’ya böl.'),
+        question('17 sayısının kaç pozitif çarpanı vardır?','2',['1','3','4'],'17’nin yalnızca 1 ve 17 olmak üzere 2 pozitif çarpanı vardır.','17, asal bir sayıdır.'),
+        question('24 ve 36’nın ortak çarpanlarından biri hangisidir?','12',['5','8','9'],'24 ÷ 12 = 2 ve 36 ÷ 12 = 3; her iki sayıyı da tam böler.','Seçeneklerin her iki sayıyı da bölmesi gerekir.',true),
+        question('Hem 18’in hem de 30’un çarpanı olan sayı hangisidir?','6',['4','5','9'],'18 = 3 × 6 ve 30 = 5 × 6 olduğundan 6 ortak çarpandır.','18 ve 30’u ayrı ayrı bölebilen sayıyı ara.',true),
+        question('Bir pozitif doğal sayının en büyük pozitif çarpanı hangisidir?','Sayının kendisi',['Her zaman 1','Her zaman 2','Sayının bir fazlası'],'Her pozitif doğal sayı kendisine tam bölünür. En büyük pozitif çarpanı kendisidir.','Örneğin 15’in en büyük çarpanı kaçtır?')
+      ],
+      kat: [
+        question('6 sayısının 4. pozitif katı kaçtır?','24',['18','30','36'],'6’nın pozitif katları: 6, 12, 18, 24… Dördüncüsü 24’tür.','6 × 4 işlemini yap.'),
+        question('8 sayısının ilk pozitif katı kaçtır?','8',['0','16','24'],'Pozitif katlar 8, 16, 24… diye başlar. Sıfır pozitif değildir.','8 × 1’i düşün.'),
+        question('7’nin ilk üç pozitif katı hangileridir?','7, 14, 21',['0, 7, 14','7, 15, 21','14, 21, 28'],'7 × 1 = 7, 7 × 2 = 14, 7 × 3 = 21.','7’şer 7’şer say.'),
+        question('Aşağıdaki sayılardan hangisi 9’un katıdır?','54',['52','56','58'],'9 × 6 = 54; bu yüzden 54, 9’un katıdır.','9 çarpım tablosunu kullan.'),
+        question('Aşağıdakilerden hangisi 5’in katı DEĞİLDİR?','42',['35','60','75'],'5’in katları 0 veya 5 ile biter. 42 bu kurala uymaz.','5’in katlarının birler basamağını incele.'),
+        question('12’nin 5. pozitif katı kaçtır?','60',['48','55','72'],'12 × 5 = 60.','12’şer say veya 12 × 5 yap.'),
+        question('4 ile 6’nın en küçük ortak pozitif katı kaçtır?','12',['8','10','24'],'4’ün katları 4, 8, 12…; 6’nın katları 6, 12… İlk ortak pozitif kat 12’dir.','İki sayının katlarını sırayla yaz.',true),
+        question('Hem 3’ün hem de 5’in katı olan sayı hangisidir?','30',['18','25','28'],'30, 3 × 10 ve 5 × 6 olarak yazılır.','Hem 3’e hem de 5’e kalansız bölünmeli.'),
+        question('10’un 7. pozitif katı kaçtır?','70',['17','60','80'],'10 × 7 = 70.','10’ar sayarken yedinci sayıya gel.'),
+        question('2’nin bütün pozitif katları nasıl sayılardır?','Çift',['Tek','Asal','Tek basamaklı'],'2’nin tüm pozitif katları 2’ye tam bölünür; dolayısıyla çifttir.','2, 4, 6, 8, 10… dizisini incele.'),
+        question('30’dan büyük en küçük 4 katı kaçtır?','32',['30','34','36'],'4’ün katları 28, 32, 36…; 30’dan büyük ilk kat 32’dir.','4 × 7 = 28; bir sonraki katı düşün.'),
+        question('9’un 3. pozitif katı kaçtır?','27',['18','36','39'],'9 × 3 = 27.','9, 18, 27 diye say.'),
+        question('Hem 6’nın hem 8’in katı olan sayı hangisidir?','48',['18','32','42'],'48 = 6 × 8 ve 48 = 8 × 6; ikisinin de katıdır.','Her iki sayıya da tam bölünmeli.',true),
+        question('15’in 4. pozitif katı kaçtır?','60',['45','75','90'],'15 × 4 = 60.','15 + 15 + 15 + 15.'),
+        question('4, 8, 12, 16, □ örüntüsünde sıradaki sayı kaçtır?','20',['18','22','24'],'Dizi 4’er artar: 16 + 4 = 20.','Her adımda ne kadar artıyor?'),
+        question('3 ve 4’ün en küçük ortak pozitif katı kaçtır?','12',['6','7','24'],'3’ün katları 3, 6, 9, 12…; 4’ün katları 4, 8, 12…','Her iki sayının katlarını karşılaştır.',true),
+        question('6’nın ilk beş pozitif katı hangileridir?','6, 12, 18, 24, 30',['0, 6, 12, 18, 24','6, 12, 18, 25, 30','6, 12, 16, 24, 30'],'6 × 1’den 6 × 5’e kadar saydığımızda 6, 12, 18, 24, 30 buluruz.','6, 12, 18… diye ilerle.'),
+        question('35 sayısı 7’nin kaçıncı pozitif katıdır?','5.',['4.','6.','7.'],'7 × 5 = 35, dolayısıyla 35 sayısı 7’nin 5. pozitif katıdır.','35 ÷ 7 işlemini yap.')
+      ],
+      asal: [
+        question('Tek çift asal sayı hangisidir?','2',['4','6','8'],'2 yalnızca 1 ve 2’ye bölünür; çift asal sayıların tek örneğidir.','2’nin pozitif çarpanlarını düşün.'),
+        question('1 sayısı neden asal değildir?','Yalnızca 1 pozitif çarpanı vardır.',['2 pozitif çarpanı vardır.','Çift sayıdır.','3’e bölünebilir.'],'Asal sayıların tam olarak iki farklı pozitif çarpanı olur. 1’in ise yalnızca bir tane vardır.','Asal sayının çarpan sayısı 2 olmalı.'),
+        question('Aşağıdakilerden hangisi asal sayıdır?','29',['27','33','35'],'29’un 1 ve kendisi dışında pozitif çarpanı yoktur.','27 ve 33, 3’e; 35 ise 5’e tam bölünür.'),
+        question('Aşağıdakilerden hangisi asal sayı DEĞİLDİR?','21',['19','23','31'],'21 = 3 × 7, bu yüzden asal değildir.','1 ve kendisinden başka çarpanı olanı ara.'),
+        question('36’nın farklı asal çarpanları hangileridir?','2 ve 3',['2 ve 5','3 ve 6','2 ve 7'],'36 = 2² × 3² olduğundan farklı asal çarpanları 2 ve 3’tür.','36’yı asal sayıların çarpımı biçiminde yaz.',true),
+        question('60’ın farklı asal çarpanları hangileridir?','2, 3 ve 5',['2 ve 3','3 ve 5','2, 5 ve 7'],'60 = 2² × 3 × 5. Farklı asal çarpanlar 2, 3 ve 5’tir.','60’ı sırayla 2, 3 ve 5’e böl.',true),
+        question('24’ün asal çarpanlarına ayrılmış hâli hangisidir?','2³ × 3',['2² × 3','2 × 3²','2 × 3 × 5'],'24 = 2 × 2 × 2 × 3 = 2³ × 3.','24’ü 2’ye bölerek ilerle.',true),
+        question('45’in asal çarpanlarına ayrılmış hâli hangisidir?','3² × 5',['3 × 5','5² × 3','3³'],'45 = 3 × 3 × 5 = 3² × 5.','45 = 9 × 5 olduğunu hatırla.',true),
+        question('İki basamaklı en küçük asal sayı kaçtır?','11',['10','12','15'],'11’in yalnızca 1 ve 11 olmak üzere iki pozitif çarpanı vardır.','10 asal değildir. Bir sonrakini dene.'),
+        question('10 ile 20 arasında kaç asal sayı vardır?','4',['3','5','6'],'11, 13, 17 ve 19 asal sayıdır; toplam 4 tane.','10’dan 20’ye kadar sayıları sırayla kontrol et.',true),
+        question('Bir asal sayının kaç farklı pozitif çarpanı olur?','2',['1','3','4'],'Asal sayı, yalnızca 1’e ve kendisine kalansız bölünür.','Asal sayının tanımını hatırla.'),
+        question('84’ün farklı asal çarpanları hangileridir?','2, 3 ve 7',['2 ve 7','3 ve 7','2, 3 ve 5'],'84 = 2² × 3 × 7 olduğu için asal çarpanları 2, 3 ve 7’dir.','84 → 42 → 21 → 7 yolunu izle.',true),
+        question('49 neden asal sayı değildir?','7 × 7 olarak yazılabilir.',['Tek sayıdır.','İki basamaklıdır.','Sonu 9 ile biter.'],'49’un 1 ve 49 dışında 7 çarpanı da vardır.','7 × 7 işlemini hatırla.'),
+        question('Aşağıdakilerden hangisi asal sayıdır?','17',['15','21','25'],'17’nin 1 ve 17 dışında pozitif çarpanı bulunmaz.','15, 21 ve 25’in başka çarpanları vardır.'),
+        question('90’ın asal çarpanlarına ayrılmış hâli hangisidir?','2 × 3² × 5',['2 × 3 × 5','2² × 3 × 5','2 × 3 × 5²'],'90 = 2 × 3 × 3 × 5 = 2 × 3² × 5.','90 = 9 × 10 şeklinde yaz.',true),
+        question('72’nin farklı asal çarpanları hangileridir?','2 ve 3',['2 ve 5','3 ve 7','2, 3 ve 7'],'72 = 2³ × 3²; farklı asal çarpanları 2 ve 3’tür.','72 = 8 × 9 olduğunu düşün.',true),
+        question('Aşağıdakilerden hangisi asal sayıdır?','37',['39','45','51'],'37, 2’ye, 3’e veya 5’e bölünmez ve 1 ile kendisinden başka çarpanı yoktur.','Diğer seçeneklerin rakamları toplamına bak.'),
+        question('91’in asal olmadığını gösteren işlem hangisidir?','7 × 13 = 91',['2 × 45 = 90','3 × 30 = 90','5 × 19 = 95'],'91 = 7 × 13. 1 ve 91 dışında çarpanları olduğu için asal değildir.','7 ve 13’ü çarp.',true),
+        question('25’in tek farklı asal çarpanı hangisidir?','5',['2','3','7'],'25 = 5 × 5; farklı asal çarpanı yalnızca 5’tir.','5 × 5 = 25.'),
+        question('100’ün asal çarpanlarına ayrılmış hâli hangisidir?','2² × 5²',['2 × 5²','2³ × 5','2² × 5'],'100 = 10 × 10 = 2 × 5 × 2 × 5 = 2² × 5².','100 = 10 × 10 yaz ve her 10’u ayır.',true),
+        question('En küçük asal sayı kaçtır?','2',['1','3','5'],'En küçük asal sayı 2’dir. 1, asal sayı değildir.','Bir asal sayının 2 farklı pozitif çarpanı vardır.')
+      ]
+    };
+    const worlds = {
+      carpan:{id:'carpan',label:'ÇARPANLAR GEZEGENİ',title:'Çarpanlar Gezegeni',emoji:'🪐',flavor:'Bir sayının gizli bölenlerini bul!',className:'orange',count:10},
+      kat:{id:'kat',label:'KATLAR İSTASYONU',title:'Katlar İstasyonu',emoji:'🚀',flavor:'Sayıların ritmini ve katlarını yakala!',className:'teal',count:10},
+      asal:{id:'asal',label:'ASAL SAYILAR LABORATUVARI',title:'Asal Sayılar Laboratuvarı',emoji:'💎',flavor:'Asal sayıların şifresini çöz!',className:'violet',count:10},
+      karisik:{id:'karisik',label:'KARIŞIK GÖREV',title:'Büyük Sayı Macerası',emoji:'🎲',flavor:'Üç gezegenden gelen soruları çöz!',className:'violet',count:12}
+    };
+    const app = document.getElementById('app');
+    const soundBtn = document.getElementById('soundBtn');
+    const sizeBtn = document.getElementById('sizeBtn');
+    const screenBtn = document.getElementById('screenBtn');
+    let state = {screen:'home',id:null,questions:[],index:0,score:0,correct:0,hearts:4,chosen:null,options:[],showHint:false,usedHint:false,streak:0};
+    let audioCtx = null;
+    let sound = !!data.sound;
+    let enlarged = !!data.enlarged;
+    document.body.classList.toggle('big-text',enlarged);
+    const tone = (freq=660,duration=.12,delay=0) => {
+      if(!sound) return;
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC) return;
+        audioCtx = audioCtx || new AC();
+        if(audioCtx.state === 'suspended') audioCtx.resume();
+        const oscillator=audioCtx.createOscillator(),vol=audioCtx.createGain();
+        oscillator.type='sine';oscillator.frequency.value=freq;
+        vol.gain.setValueAtTime(.0001,audioCtx.currentTime+delay);
+        vol.gain.exponentialRampToValueAtTime(.13,audioCtx.currentTime+delay+.015);
+        vol.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+delay+duration);
+        oscillator.connect(vol);vol.connect(audioCtx.destination);
+        oscillator.start(audioCtx.currentTime+delay);oscillator.stop(audioCtx.currentTime+delay+duration+.02);
+      } catch {}
+    };
+    const chime = win => win ? (tone(600,.13),tone(790,.16,.13),tone(1000,.24,.29)) : (tone(320,.16),tone(280,.19,.14));
+    const clean = txt => String(txt).replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+    const isCorrect = idx => state.options[idx] === state.questions[state.index].correct;
+    const bestScore = () => Math.max(0,...Object.values(data.best).filter(Number.isFinite));
+    function showTop(){
+      soundBtn.innerHTML = sound ? '<span class="ico">🔊</span><span class="optional">Ses açık</span>' : '<span class="ico">🔇</span><span class="optional">Ses kapalı</span>';
+      sizeBtn.innerHTML = enlarged ? '<span class="ico">A−</span><span class="optional">Küçült</span>' : '<span class="ico">A+</span><span class="optional">Büyüt</span>';
+      screenBtn.innerHTML = document.fullscreenElement ? '<span class="ico">⛶</span><span class="optional">Çık</span>' : '<span class="ico">⛶</span><span class="optional">Tam ekran</span>';
+    }
+    function renderHome(){
+      const completed=['carpan','kat','asal'].filter(x=>data.stars[x] > 0).length;
+      const card = (w,num,description) => `
+        <button class="world ${w.className}" data-start="${w.id}" aria-label="${clean(w.title)} bölümünü oyna">
+          <span class="planet" aria-hidden="true">${w.emoji}</span><span class="tag">BÖLÜM ${num} · 10 SORU</span>
+          <h3>${w.title}</h3><p>${description}</p>
+          <span class="world-foot"><span class="start">${data.stars[w.id] ? 'Tekrar Oyna ↗':'Maceraya Başla ↗'}</span>
+            <span class="done">${data.stars[w.id] ? '★'.repeat(data.stars[w.id])+'☆'.repeat(3-data.stars[w.id]):'☆☆☆'}</span></span>
+        </button>`;
+      app.innerHTML = `<section class="hero">
+        <span class="orb left" aria-hidden="true">✨</span><span class="orb right" aria-hidden="true">🌟</span>
+        <div class="eyebrow">BİLGİNİ GÖSTER · YILDIZLARI TOPLA</div>
+        <h1><span class="gradient-text">SAYI KÂŞİFLERİ</span></h1>
+        <p>Çarpanları keşfet, katları yakala, asal sayıların şifresini çöz! Üç gezegen seni bekliyor.</p>
+        <div class="stats"><span class="pill">🪐 ${completed}/3 gezegen tamamlandı</span>
+          <span class="pill">🏆 En iyi puan: ${bestScore()}</span><span class="pill">💖 Her oyunda 4 can</span></div>
+      </section>
+      <section aria-label="Oyun bölümleri">
+        <div class="section-head"><h2>Gezegenini seç</h2><span>Her bölümü istediğin sırayla oynayabilirsin.</span></div>
+        <div class="world-grid">
+          ${card(worlds.carpan,1,'Sayıları kalansız bölen çarpanları keşfet ve ortak çarpanları bul.')}
+          ${card(worlds.kat,2,'Sayı örüntülerini tamamla, katları ve ortak katları tanı.')}
+          ${card(worlds.asal,3,'Asal sayıları tanı ve sayıları asal çarpanlarına ayır.')}
+        </div>
+        <button class="mix" data-start="karisik">
+          <div class="mix-left"><span class="mix-emoji" aria-hidden="true">🎯</span>
+          <div><h3>Büyük Sayı Macerası</h3><p>Üç konudan 12 karışık soru · Final görevi</p></div></div>
+          <span class="arrow">Oyna →</span>
+        </button>
+        <button class="arena-cta" data-action="arena-setup" aria-label="Takımlı bilgi yarışması modunu aç">
+          <div class="mix-left"><span class="mix-emoji" aria-hidden="true">🏆</span>
+          <div><h3>Bilgi Yarışması · Sınıf Arenası</h3>
+            <p>2–4 takım · Süreli sorular · Canlı puan tablosu · Büyük final</p></div></div>
+          <span class="arrow">Yarış →</span>
+        </button>
+      </section>
+      <div class="footnote">🎮 İnternetsiz çalışır · İpucu alabilirsin · Klavyede 1–4 ile cevap ver<br>
+      <span>🏫 Sınıfta, akıllı tahtada ve evde kullanılabilir.</span></div>`;
+    }
+    function prepareQuestion(){
+      const item=state.questions[state.index];
+      state.options=shuffle([item.correct,...item.wrong]);
+      state.chosen=null; state.showHint=false;state.usedHint=false;
+    }
+    function start(id){
+      const w=worlds[id]; if(!w) return;
+      let questions=[];
+      if(id === 'karisik') questions=shuffle([
+        ...shuffle(BANK.carpan).slice(0,4),
+        ...shuffle(BANK.kat).slice(0,4),
+        ...shuffle(BANK.asal).slice(0,4)
+      ]);
+      else {
+        const shuffled=shuffle(BANK[id]);
+        const easy=shuffled.filter(q=>!q.hard).slice(0,7);
+        const hard=shuffled.filter(q=>q.hard).slice(0,3);
+        questions=shuffle([...easy,...hard]);
+      }
+      state={screen:'playing',id,questions,index:0,score:0,correct:0,hearts:4,chosen:null,options:[],showHint:false,usedHint:false,streak:0};
+      prepareQuestion();render();window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function renderQuestion(){
+      const w=worlds[state.id],q=state.questions[state.index],answered=state.chosen!==null;
+      const max=state.questions.length,progress=(state.index+(answered?1:0))/max*100;
+      const answers=state.options.map((option,i)=>{
+        let cls='';
+        if(answered) cls=isCorrect(i)?'correct':i===state.chosen?'wrong':'neutral';
+        return `<button class="answer ${cls}" data-answer="${i}" ${answered?'disabled':''}
+           aria-label="${'ABCD'[i]} seçeneği: ${clean(option)}">
+           <span class="letter">${'ABCD'[i]}</span><span>${clean(option)}</span></button>`;
+      }).join('');
+      const feedback=answered ? `<div class="feedback ${isCorrect(state.chosen)?'':'incorrect'}" role="status">
+           <div><div class="flabel">${isCorrect(state.chosen)?'✅ Harika, doğru cevap!':'💡 Birlikte öğreniyoruz!'}</div>
+             <p class="desc">${clean(q.explain)}</p></div>
+           <button class="next" data-action="next">${state.index+1>=max||state.hearts<=0?'Sonucu Gör →':'Sonraki Soru →'}</button>
+         </div>` : '';
+      app.innerHTML=`<div class="game">
+        <nav class="game-nav" aria-label="Oyun gezinme"><button class="back" data-action="home">← Gezegen haritası</button>
+          <span class="mini-title">${w.emoji} ${w.title}</span></nav>
+        <section class="hud" aria-label="Oyun durumu">
+          <div class="progresshud"><div class="hud-label">İLERLEME · ${state.index+1} / ${max}</div>
+            <div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(progress)}"><span style="width:${progress}%"></span></div>
+          </div>
+          <div class="lifehud"><div class="hud-label">CANLAR</div><div class="hearts" aria-label="${state.hearts} can kaldı">${'❤️'.repeat(state.hearts)}${'🖤'.repeat(4-state.hearts)}</div></div>
+          <div class="scorehud"><div class="hud-label">PUAN</div><div class="hud-n">${state.score}</div></div>
+        </section>
+        <section class="panel" aria-label="Matematik sorusu">
+          <div class="question-top"><span class="qbadge">SORU ${state.index+1} / ${max}</span><span class="challenge">${q.hard?'⚡ USTA KÂŞİF SORUSU':'✨ DOĞRU SEÇENEĞİ BUL'}</span></div>
+          <h2 class="q-title">${clean(q.text)}</h2>
+          <div class="answers">${answers}</div>
+          ${answered?'':`<div class="bottomrow"><button class="hintbtn" data-action="hint" ${state.showHint?'disabled':''}>💡 ${state.showHint?'İpucu gösterildi':'İpucu al (doğruysa −3 puan)'}</button>
+            <span class="micro">Cevaplamak için 1, 2, 3 veya 4 tuşuna da basabilirsin.</span></div>
+            ${state.showHint?`<div class="hint" role="note">💡 ${clean(q.hint)}</div>`:''}`}
+          ${feedback}
+        </section>
+      </div>`;
+      if(answered){const next=app.querySelector('[data-action="next"]');next?.focus({preventScroll:true});}
+    }
+    function answer(idx){
+      if(state.screen!=='playing'||state.chosen!==null||idx<0||idx>3) return;
+      state.chosen=idx;
+      if(isCorrect(idx)){
+        state.correct++;state.streak++;
+        const bonus=Math.min((state.streak-1)*2,8);
+        state.score+=Math.max(2,10+bonus-(state.usedHint?3:0));
+        tone(650,.12);tone(850,.19,.13);
+      }else{state.hearts=Math.max(0,state.hearts-1);state.streak=0;chime(false);}
+      renderQuestion();
+    }
+    function next(){
+      if(state.screen!=='playing'||state.chosen===null)return;
+      if(state.hearts===0||state.index===state.questions.length-1){finish();return;}
+      state.index++;prepareQuestion();renderQuestion();
+    }
+    function finish(){
+      const total=state.questions.length;
+      const seen=state.index+1;
+      const won=seen===total && state.hearts>0;
+      const ratio=state.correct/total;
+      const stars=won?(ratio>=.85?3:ratio>=.65?2:1):0;
+      const best=Math.max(data.best[state.id] || 0,state.score);
+      data.best[state.id]=best;
+      data.stars[state.id]=Math.max(data.stars[state.id]||0,stars);
+      save();state.screen='result';state.last={seen,total,won,stars,best};render();
+      if(stars>=2){chime(true);makeConfetti();}
+    }
+    function renderResult(){
+      const w=worlds[state.id],r=state.last;
+      const title=!r.won?'Yeni bir keşif seni bekliyor!':r.stars===3?'Muhteşem, sayı ustası!':r.stars===2?'Harika bir macera!':'Başardın, kâşif!';
+      const msg=!r.won?'Canların bitti ama öğrendiğin her şey çok değerli. İpuçlarını kullanarak yeniden deneyebilirsin.':
+        r.stars===3?'Gezegendeki tüm şifreleri neredeyse hatasız çözdün!':
+        r.stars===2?'Çok iyi ilerledin! Bir tekrar daha yaparsan bütün yıldızları toplayabilirsin.':
+        'Görevi tamamladın! Daha çok yıldız toplamak için tekrar oyna.';
+      app.innerHTML=`<section class="result"><div class="panel">
+        <div class="result-icon" aria-hidden="true">${r.won?'🏆':'🌈'}</div>
+        <div class="stars" aria-label="${r.stars} yıldız">${'★'.repeat(r.stars)}${'☆'.repeat(3-r.stars)}</div>
+        <h2>${title}</h2><p>${msg}</p>
+        <div class="scorecards">
+          <div class="scorecard"><strong>${state.score}</strong><span>KAZANILAN PUAN</span></div>
+          <div class="scorecard"><strong>${state.correct}/${r.seen}</strong><span>DOĞRU CEVAP</span></div>
+          <div class="scorecard"><strong>${r.best}</strong><span>EN İYİ PUAN</span></div>
+        </div>
+        <div class="actions"><button class="primary" data-start="${w.id}">🔄 Yeniden Oyna</button>
+          <button class="secondary" data-action="home">🪐 Gezegen Haritası</button></div>
+        <div class="result-details">${w.emoji} ${w.title} · ${r.seen} soru görüldü / ${r.total} soru</div>
+      </div></section>`;
+    }
+
+    // SINIF ARENASI — 2–4 takımlı, öğretmen kontrollü, süreli yarışma.
+    const TEAM_COLORS=['#8dbdff','#7bedd0','#cab1ff','#ffd083'];
+    const TEAM_DEFAULTS=['Mavi Takım','Yeşil Takım','Mor Takım','Turuncu Takım'];
+    let arenaConfig={teamCount:2,rounds:5,seconds:25,names:[...TEAM_DEFAULTS]};
+    let arena=null;
+    function stopArenaClock(){if(arena?.timer){clearInterval(arena.timer);arena.timer=null;}}
+    function enterArenaSetup(){stopArenaClock();state.screen='arenaSetup';render();window.scrollTo({top:0,behavior:'smooth'});}
+    function renderArenaSetup(){
+      const fields=Array.from({length:arenaConfig.teamCount},(_,i)=>`<div class="team-input-field field">
+        <label for="team-${i}"><span class="team-dot" style="--team-color:${TEAM_COLORS[i]}"></span> ${i+1}. takım adı</label>
+        <input id="team-${i}" data-teamname="${i}" type="text" maxlength="22" autocomplete="off" spellcheck="false"
+          value="${clean(arenaConfig.names[i])}" aria-label="${i+1}. takımın adı"></div>`).join('');
+      app.innerHTML=`<div class="arena-shell">
+        <nav class="game-nav"><button class="back" data-action="home">← Gezegen haritası</button><span class="mini-title">🏆 SINIF ARENASI</span></nav>
+        <div class="arena-hero"><span class="arena-crown" aria-hidden="true">🏆</span><div class="eyebrow">SINIFÇA YARIŞMAYA HAZIR MISIN?</div>
+          <h1><span class="gradient-text">Bilgi Yarışması</span></h1>
+          <p>Takımlarını belirle, süreyi ayarla. Her takıma eşit sayıda, çarpanlar, katlar ve asal sayılar konularından karışık sorular gelecek.</p></div>
+        <section class="panel setup-panel" aria-label="Bilgi yarışması ayarları">
+          <h2 style="margin:0;font-size:21px">⚙️ Yarışma ayarları</h2>
+          <div class="setup-grid">
+            <div class="field"><label for="arena-teams">Takım sayısı</label><select id="arena-teams" data-setting="teamCount">
+              ${[2,3,4].map(n=>`<option value="${n}" ${arenaConfig.teamCount===n?'selected':''}>${n} takım</option>`).join('')}</select></div>
+            <div class="field"><label for="arena-rounds">Her takımın soru sayısı</label><select id="arena-rounds" data-setting="rounds">
+              ${[3,5,8].map(n=>`<option value="${n}" ${arenaConfig.rounds===n?'selected':''}>${n} soru</option>`).join('')}</select></div>
+            <div class="field"><label for="arena-seconds">Soru başına süre</label><select id="arena-seconds" data-setting="seconds">
+              ${[15,25,40,60].map(n=>`<option value="${n}" ${arenaConfig.seconds===n?'selected':''}>${n} saniye</option>`).join('')}</select></div>
+          </div>
+          <h3 class="setup-title">🎨 Takımlarını adlandır</h3><div class="team-inputs">${fields}</div>
+          <div class="setup-summary" id="arena-summary">🎯 Toplam <strong>${arenaConfig.teamCount*arenaConfig.rounds} soru</strong> ·
+            Her takıma <strong>${arenaConfig.rounds} soru</strong> · Doğru cevap <strong>100 puan + en fazla 50 hız puanı</strong>.<br>
+            🧑‍🏫 Takımın sırası geldiğinde öğretmen <strong>“Soruyu Başlat”</strong> düğmesine basar. Süre ancak o zaman çalışır.</div>
+          <button class="start-arena" data-action="arena-go">🚀 Yarışmayı Başlat</button>
+        </section></div>`;
+    }
+    function beginArena(){
+      const teams=Array.from({length:arenaConfig.teamCount},(_,i)=>({
+        name:(arenaConfig.names[i]||'').trim().slice(0,22)||TEAM_DEFAULTS[i],color:TEAM_COLORS[i],score:0,correct:0
+      }));
+      const pools={carpan:shuffle(BANK.carpan),kat:shuffle(BANK.kat),asal:shuffle(BANK.asal)};
+      const categories=['carpan','kat','asal'];
+      const questions=[];
+      for(let round=0;round<arenaConfig.rounds;round++){
+        for(let team=0;team<teams.length;team++){
+          const category=categories[(round+team)%3];
+          questions.push({item:pools[category].pop(),category,team});
+        }
+      }
+      arena={teams,questions,index:0,seconds:arenaConfig.seconds,options:[],answered:false,
+        chosen:null,remaining:arenaConfig.seconds,remainingMs:arenaConfig.seconds*1000,
+        deadline:0,paused:false,timer:null,bonus:0};
+      state.screen='arenaReady';render();window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function arenaBoard(){
+      const top=Math.max(...arena.teams.map(t=>t.score));
+      return `<div class="arena-scoreboard" style="--team-count:${arena.teams.length}" aria-label="Takım puan durumu">
+        ${arena.teams.map((team,i)=>`<div class="team-score ${i===arena.questions[arena.index]?.team?'active':''} ${top>0&&team.score===top?'leader':''}"
+          style="--team-color:${team.color}">
+          <span class="tname"><span class="team-dot" aria-hidden="true"></span>${clean(team.name)}</span>
+          <span class="points">${team.score}</span><span class="right-count">${team.correct} doğru cevap</span>
+        </div>`).join('')}</div>`;
+    }
+    function arenaHeader(){return `<nav class="game-nav"><button class="back" data-action="home">← Haritaya dön</button>
+      <span class="mini-title">🏆 BİLGİ YARIŞMASI</span></nav>${arenaBoard()}
+      <div class="arena-progress"><span>🎯 Soru ${arena.index+1} / ${arena.questions.length}</span>
+        <span>🔄 Tur ${Math.floor(arena.index/arena.teams.length)+1} / ${arenaConfig.rounds}</span></div>
+      <div class="track" style="margin-bottom:21px" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+        aria-valuenow="${Math.round(arena.index/arena.questions.length*100)}">
+        <span style="width:${(arena.index/arena.questions.length)*100}%"></span></div>`;}
+    function renderArenaReady(){
+      const turn=arena.questions[arena.index],team=arena.teams[turn.team];
+      app.innerHTML=`<div class="arena-shell">${arenaHeader()}
+        <section class="panel arena-ready" aria-label="Sıradaki takım">
+          <span class="arena-ready-emoji" aria-hidden="true">🎤</span>
+          <div class="eyebrow">SIRADAKİ TAKIM</div>
+          <h2 style="color:${team.color}">${clean(team.name)}</h2>
+          <p>Hazırsanız <strong>“Soruyu Başlat”</strong> düğmesine basın. Ekranda soru açılacak ve
+             ${arena.seconds} saniyelik süre başlayacak. Önceki takımın süresinden etkilenmezsiniz.</p>
+          <button class="start-arena" data-action="arena-begin">▶ Soruyu Başlat</button>
+          <div class="result-details">📚 Çarpanlar · Katlar · Asal Sayılar &nbsp; | &nbsp; Her doğru 100 + hız puanı</div>
+        </section></div>`;
+    }
+    function startArenaTurn(){
+      if(state.screen!=='arenaReady')return;
+      const q=arena.questions[arena.index].item;
+      arena.options=shuffle([q.correct,...q.wrong]);arena.answered=false;arena.chosen=null;
+      arena.bonus=0;arena.paused=false;arena.remainingMs=arena.seconds*1000;arena.remaining=arena.seconds;
+      state.screen='arenaPlaying';arena.deadline=Date.now()+arena.remainingMs;
+      renderArenaQuestion();arena.timer=setInterval(tickArenaClock,120);
+    }
+    function tickArenaClock(){
+      if(state.screen!=='arenaPlaying'||arena.paused||arena.answered)return;
+      arena.remainingMs=Math.max(0,arena.deadline-Date.now());
+      const left=Math.ceil(arena.remainingMs/1000);
+      if(left!==arena.remaining){
+        arena.remaining=left;
+        const timer=app.querySelector('#arena-timer');
+        if(timer){timer.textContent=left;timer.classList.toggle('urgent',left<=5);timer.setAttribute('aria-label',left+' saniye kaldı');}
+      }
+      const bar=app.querySelector('#arena-timer-meter');
+      if(bar)bar.style.width=(arena.remainingMs/(arena.seconds*1000)*100)+'%';
+      if(arena.remainingMs<=0)answerArena(-1,true);
+    }
+    function renderArenaQuestion(){
+      const turn=arena.questions[arena.index],team=arena.teams[turn.team],q=turn.item;
+      const answered=arena.answered;
+      const categoryLabels={carpan:'🪐 ÇARPANLAR',kat:'🚀 KATLAR',asal:'💎 ASAL SAYILAR'};
+      const opts=arena.options.map((opt,i)=>{
+        const cls=answered?(opt===q.correct?'correct':arena.chosen===i?'wrong':'neutral'):'';
+        return `<button class="answer ${cls}" data-arena-answer="${i}" ${answered?'disabled':''}
+         aria-label="${'ABCD'[i]} seçeneği: ${clean(opt)}"><span class="letter">${'ABCD'[i]}</span><span>${clean(opt)}</span></button>`;
+      }).join('');
+      const feedback=answered?`<div class="feedback ${arena.chosen!==-1&&arena.options[arena.chosen]===q.correct?'':'incorrect'}" role="status">
+        <div><div class="flabel">${arena.chosen===-1?'⌛ Süre doldu!':arena.options[arena.chosen]===q.correct?'✅ Doğru cevap!':'💡 Bu soruyu birlikte öğrenelim!'}</div>
+          <p class="desc">${arena.chosen!==-1&&arena.options[arena.chosen]===q.correct?
+            `<span class="arena-bonus">+${100+arena.bonus} puan (100 doğru + ${arena.bonus} hız)</span><br>`:''}
+            ${clean(q.explain)}</p></div>
+        <button class="next" data-action="arena-next">${arena.index+1===arena.questions.length?'Sonuçları Gör →':'Sonraki Takım →'}</button>
+      </div>`:'';
+      app.innerHTML=`<div class="arena-shell">${arenaHeader()}
+        <section class="panel" aria-label="Yarışma sorusu">
+          <div class="timerbar"><div class="timer-box"><span class="timer-number ${arena.remaining<=5?'urgent':''}" id="arena-timer"
+            role="timer" aria-label="${arena.remaining} saniye kaldı">${arena.remaining}</span><span>⏱ Kalan<br> saniye</span></div>
+            <div class="timer-meter" aria-hidden="true"><span id="arena-timer-meter" style="width:${arena.remainingMs/(arena.seconds*1000)*100}%"></span></div>
+            ${answered?'':`<button class="arena-pause" data-action="arena-pause">${arena.paused?'▶ Devam et':'⏸ Duraklat'}</button>`}
+          </div>
+          ${arena.paused?`<div class="arena-paused"><div class="result-icon">⏸️</div><h2>Süre duraklatıldı</h2>
+            <p>Soru ve seçenekler gizlendi. Hazır olduğunuzda devam edin.</p>
+            <button class="primary" data-action="arena-pause">▶ Yarışmaya Devam Et</button></div>`:`
+            <div class="question-top"><span class="qbadge">${categoryLabels[turn.category]}</span>
+              <span class="challenge">${q.hard?'⚡ USTA SORUSU':'✨ DOĞRU CEVABI BUL'}</span></div>
+            <p class="arena-q-subtitle">🎤 ${clean(team.name)} · ${arena.index+1}. soru</p>
+            <h2 class="q-title">${clean(q.text)}</h2><div class="answers">${opts}</div>
+            ${answered?feedback:`<div class="bottomrow"><span class="micro">🎓 Öğretmen cevapları tahtadan seçebilir.
+              Klavyede 1–4 tuşlarıyla da cevap verilebilir.</span></div>`}`}
+        </section></div>`;
+      if(answered)app.querySelector('[data-action="arena-next"]')?.focus({preventScroll:true});
+    }
+    function answerArena(choice,timedOut=false){
+      if(state.screen!=='arenaPlaying'||arena.answered||arena.paused||(!timedOut&&(choice<0||choice>3)))return;
+      // Görüntü yenileme gecikmiş olsa bile süresi biten cevap puan kazanmaz.
+      if(!timedOut&&Date.now()>=arena.deadline){answerArena(-1,true);return;}
+      const remain=Math.max(0,arena.deadline-Date.now());
+      arena.remainingMs=timedOut?0:remain;arena.remaining=Math.ceil(arena.remainingMs/1000);
+      arena.answered=true;arena.chosen=timedOut?-1:choice;stopArenaClock();
+      const turn=arena.questions[arena.index],team=arena.teams[turn.team];
+      if(!timedOut&&arena.options[choice]===turn.item.correct){
+        arena.bonus=Math.floor(50*remain/(arena.seconds*1000));
+        team.score+=100+arena.bonus;team.correct++;chime(true);
+      }else{chime(false);}
+      renderArenaQuestion();
+    }
+    function pauseArena(){
+      if(state.screen!=='arenaPlaying'||arena.answered)return;
+      if(!arena.paused){
+        arena.remainingMs=Math.max(0,arena.deadline-Date.now());
+        if(arena.remainingMs===0){answerArena(-1,true);return;}
+        arena.remaining=Math.ceil(arena.remainingMs/1000);arena.paused=true;stopArenaClock();
+      }else{arena.paused=false;arena.deadline=Date.now()+arena.remainingMs;arena.timer=setInterval(tickArenaClock,120);}
+      renderArenaQuestion();
+    }
+    function nextArena(){
+      if(state.screen!=='arenaPlaying'||!arena.answered)return;
+      stopArenaClock();
+      if(arena.index===arena.questions.length-1){finishArena();return;}
+      arena.index++;state.screen='arenaReady';render();window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function finishArena(){
+      stopArenaClock();state.screen='arenaResult';render();makeConfetti();chime(true);
+    }
+    function renderArenaResult(){
+      const ordered=arena.teams.map((team,index)=>({...team,index})).sort((a,b)=>b.score-a.score||a.index-b.index);
+      const winners=ordered.filter(t=>t.score===ordered[0].score);
+      const tie=winners.length>1;
+      const title=tie?'🤝 Yarışma Berabere!':`🏆 ${clean(winners[0].name)} Kazandı!`;
+      const rows=ordered.map((team,i)=>{
+        const rank=ordered.filter(other=>other.score>team.score).length+1;
+        return `<div class="leader-row ${rank===1?'first':''}">
+          <div class="leader-rank">${rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':'4.'}</div>
+          <div class="leader-details"><strong><span class="team-dot" style="--team-color:${team.color}"></span>
+            ${clean(team.name)}</strong><span>${team.correct} / ${arenaConfig.rounds} doğru cevap</span></div>
+          <div class="leader-score">${team.score}</div></div>`;
+      }).join('');
+      app.innerHTML=`<section class="result arena-shell"><div class="panel">
+        <div class="result-icon" aria-hidden="true">${tie?'🤝':'🏆'}</div>
+        <div class="eyebrow">BÜYÜK FİNAL · PUAN DURUMU</div>
+        <h2>${title}</h2><p>${tie?`Birinciliği ${winners.length} takım paylaştı!`:'Tüm takımları tebrik ederiz!'}
+         Çarpanlar, katlar ve asal sayılar bilgisini başarıyla yarıştırdınız.</p>
+        <div class="leaderboard" aria-label="Yarışma sıralaması">${rows}</div>
+        <div class="actions"><button class="primary" data-action="arena-replay">🔄 Yeniden Yarış</button>
+          <button class="secondary" data-action="arena-setup">⚙️ Ayarları Değiştir</button>
+          <button class="secondary" data-action="home">🪐 Ana Menü</button></div>
+        <div class="result-details">${arena.questions.length} soru · Her takıma ${arenaConfig.rounds} soru · ${arena.seconds} saniyelik süre</div>
+      </div></section>`;
+    }
+    function makeConfetti(){
+      const el=document.getElementById('confetti'),palette=['#60e9ce','#ffdc79','#ff9ac7','#b9b0ff','#fff'];
+      el.innerHTML=Array.from({length:55},(_,i)=>`<i style="--x:${Math.round(Math.random()*100)}%;--dur:${(1.8+Math.random()*1.7).toFixed(2)}s;--c:${palette[i%palette.length]};--r:${Math.round(Math.random()*360)}deg;animation-delay:${(Math.random()*.55).toFixed(2)}s"></i>`).join('');
+      setTimeout(()=>el.replaceChildren(),4200);
+    }
+    function home(){stopArenaClock();state.screen='home';render();window.scrollTo({top:0,behavior:'smooth'});}
+    function render(){
+      showTop();
+      if(state.screen==='home')renderHome();
+      else if(state.screen==='playing')renderQuestion();
+      else if(state.screen==='result')renderResult();
+      else if(state.screen==='arenaSetup')renderArenaSetup();
+      else if(state.screen==='arenaReady')renderArenaReady();
+      else if(state.screen==='arenaPlaying')renderArenaQuestion();
+      else if(state.screen==='arenaResult')renderArenaResult();
+    }
+    app.addEventListener('click', e=>{
+      const b=e.target.closest('button');if(!b||!app.contains(b))return;
+      if(b.dataset.start){start(b.dataset.start);return;}
+      if(b.dataset.arenaAnswer!==undefined){answerArena(Number(b.dataset.arenaAnswer));return;}
+      if(b.dataset.action==='arena-setup'){enterArenaSetup();return;}
+      if(b.dataset.action==='arena-go'){beginArena();return;}
+      if(b.dataset.action==='arena-begin'){startArenaTurn();return;}
+      if(b.dataset.action==='arena-pause'){pauseArena();return;}
+      if(b.dataset.action==='arena-next'){nextArena();return;}
+      if(b.dataset.action==='arena-replay'){beginArena();return;}
+      if(b.dataset.answer!==undefined){answer(Number(b.dataset.answer));return;}
+      if(b.dataset.action==='next'){next();return;}
+      if(b.dataset.action==='home'){home();return;}
+      if(b.dataset.action==='hint'&&state.screen==='playing'&&state.chosen===null&&!state.showHint){state.showHint=true;state.usedHint=true;renderQuestion();}
+    });
+    app.addEventListener('input',e=>{
+      const i=e.target.dataset?.teamname;
+      if(i!==undefined&&state.screen==='arenaSetup')arenaConfig.names[Number(i)]=e.target.value;
+    });
+    app.addEventListener('change',e=>{
+      const setting=e.target.dataset?.setting;
+      if(state.screen!=='arenaSetup'||!setting)return;
+      const n=Number(e.target.value);
+      if(setting==='teamCount'&&[2,3,4].includes(n)){arenaConfig.teamCount=n;renderArenaSetup();}
+      else if(setting==='rounds'&&[3,5,8].includes(n)){arenaConfig.rounds=n;renderArenaSetup();}
+      else if(setting==='seconds'&&[15,25,40,60].includes(n)){arenaConfig.seconds=n;renderArenaSetup();}
+    });
+    window.addEventListener('keydown',e=>{
+      const tag=document.activeElement?.tagName;
+      if(e.altKey||e.ctrlKey||e.metaKey||tag==='INPUT'||tag==='TEXTAREA')return;
+      if(state.screen==='playing'){
+        if(['1','2','3','4'].includes(e.key)&&state.chosen===null){e.preventDefault();answer(Number(e.key)-1);}
+        else if(e.key==='Enter'&&state.chosen!==null){e.preventDefault();next();}
+        else if(e.key==='Escape'){e.preventDefault();home();}
+      }else if(state.screen==='arenaPlaying'){
+        if(['1','2','3','4'].includes(e.key)&&!arena.answered&&!arena.paused){e.preventDefault();answerArena(Number(e.key)-1);}
+        else if(e.key==='Enter'&&arena.answered){e.preventDefault();nextArena();}
+        else if(e.key==='Escape'){e.preventDefault();home();}
+      }else if(state.screen==='arenaReady'){
+        if(e.key==='Enter'&&tag!=='BUTTON'){e.preventDefault();startArenaTurn();}
+        else if(e.key==='Escape'){e.preventDefault();home();}
+      }
+    });
+    soundBtn.addEventListener('click',()=>{sound=!sound;data.sound=sound;save();showTop();if(sound)tone(800,.16);});
+    sizeBtn.addEventListener('click',()=>{enlarged=!enlarged;data.enlarged=enlarged;save();document.body.classList.toggle('big-text',enlarged);showTop();});
+    screenBtn.addEventListener('click',async()=>{
+      try{if(document.fullscreenElement){await document.exitFullscreen();}
+        else if(document.documentElement.requestFullscreen){await document.documentElement.requestFullscreen();}}catch{}showTop();
+    });
+    document.addEventListener('fullscreenchange',showTop);
+    // Development-friendly bank validation: every question must have exactly 4 unique answers.
+    for(const [category,items] of Object.entries(BANK)){
+      for(const [index,item] of items.entries()){
+        if(item.wrong.length!==3 || new Set([item.correct,...item.wrong]).size!==4)
+          console.error('Geçersiz soru seçenekleri:',category,index+1,item.text);
+      }
+    }
+    render();
+  })();
+  </script>
+</body>
+</html>
