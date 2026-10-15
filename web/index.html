@@ -191,6 +191,14 @@ a{color:#1d8b61}
 .custom-bank summary{font-weight:900;color:#226342;padding:11px 0;cursor:pointer}
 @media(max-width:600px){.custom-bank{padding:13px}.custom-two{grid-template-columns:1fr}.custom-listitem{align-items:flex-start;flex-direction:column}.custom-toolbar .btn{flex:1}}
 
+
+/* Şık renkleri: A kırmızı, B mavi, C yeşil, D turuncu. Öğretmen/öğrenci ortak görünüm. */
+.answers .answer:nth-child(4n+1){background:linear-gradient(130deg,#e8455d,#ba2343);color:#fff}
+.answers .answer:nth-child(4n+2){background:linear-gradient(130deg,#3288e9,#1858b9);color:#fff}
+.answers .answer:nth-child(4n+3){background:linear-gradient(130deg,#31b876,#137949);color:#fff}
+.answers .answer:nth-child(4n+4){background:linear-gradient(130deg,#df812b,#b65312);color:#fff}
+.answers .answer .symbol{background:rgba(0,0,0,.18);border-color:rgba(255,255,255,.35);color:#fff}
+
 </style></head>
 <body><div class="shell"><header class="head"><a class="logo" href="/" title="Sayı Kâşifleri Ana Sayfa"><span class="mark">✦</span><span><span style="display:block">SAYI KÂŞİFLERİ <span style="color:var(--mint)">CANLI</span></span><span class="brand-sub">DOĞA KOLEJİ • 6. SINIF MATEMATİK</span></span></a><div class="head-tools"><button id="sound-toggle" type="button" class="sound-toggle" aria-label="Ses efektlerini aç" aria-pressed="false" title="Ses efektleri kapalı">🔇</button><span class="status"><span id="connection-dot" class="dot"></span><span id="connection-text">Bağlanıyor...</span></span></div></header><main id="app" class="main" aria-live="polite"></main><footer class="foot">✦ Çarpanlar • Katlar • Asal Sayılar &nbsp;|&nbsp; Eğitim amaçlı sınıf yarışması</footer></div>
 <script>
