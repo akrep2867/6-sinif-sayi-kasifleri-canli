@@ -1,32 +1,45 @@
-# SAYI KÂŞİFLERİ CANLI — İNTERNETTEN OYNANAN 6. SINIF MATEMATİK YARIŞMASI
+# 🎮 SAYI KÂŞİFLERİ CANLI — 6. SINIF MATEMATİK YARIŞMASI
 
-Çarpanlar, katlar, asal sayılar. **Aynı Wi-Fi ağı gerekmiyor**: öğrenciler kendi mobil internetleriyle aynı HTTPS adresinden veya QR koddan katılır.
+Çarpanlar, katlar ve asal sayılar konusunda öğretmen yönetiminde **canlı ve çok oyunculu** bilgi yarışması. Öğrenciler kendi telefonları ve mobil internetleri ile QR kod / 6 haneli PIN üzerinden katılabilir.
 
-## 🌍 İnternette açmak için tek düğme
+## Bağımsız öğretmen kurulumu
 
-[![Render’a yayımla](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/akrep2867/matematik-macerasi-doga-koleji/tree/sayi-kasifleri-canli)
+**📘 [ÖĞRETMEN KURULUM REHBERİ — OGRETMEN_KURULUM.md](OGRETMEN_KURULUM.md)**
 
-1. Yukarıdaki düğmeye tıkla. Render hesabınla giriş yap ve gerekirse GitHub hesabına erişim izni ver. Bu özel GitHub deposunu Render'a bağla.
-2. Açılan ekranda **Free** planı seçip **Apply / Deploy** işlemini onayla. Render internet adresini (örneğin `https://sayi-kasifleri-canli.onrender.com`) oluşturur.
-3. Bu adresi bilgisayarda/akıllı tahtada aç: **Canlı Yarışma Kur** → odayı aç → öğrenciler **herhangi bir ağ üzerinden** QR kodu okutsun veya linke dokunsun.
+Bu projenin dosyalarını kendi GitHub deponuza kopyalayıp kendi Render hesabınızda yayımladığınızda başkasının hesabına bağımlı olmazsınız.
 
-**Henüz Render'da yayımlanmadıysa bir genel oyun adresi yoktur.** Bu buton hesabında yeni bir sunucu açmanı başlatır, otomatik olarak hesap açmaz.
+### GitHub / Render ayarları
 
-## ⚡ Sınıfta kullanma
+- GitHub: Yeni depo açın; klasör yapısını koruyarak dosyaları yükleyin.
+- Render: **New → Web Service** (Static Site değil).
+- Runtime: **Python**
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `python app.py`
+- Root Directory: boş
+- Free plan: kullanılabiliyorsa tercih edilebilir.
+- Yayın adresini Render size oluşturur (`https://…onrender.com`).
 
-- Öğretmen: aynı siteden yarışma oluşturur, 6 haneli PIN ve QR gösterir, yarışmayı başlatır.
-- Öğrenciler: kendi mobil verisinden girer; ayrı uygulama kurmaz, yalnızca bir rumuz yazar.
-- Bireysel veya 2–4 takımla yarışma, hız puanı, süre, canlı sıralama ve CSV sonucunu indirme vardır.
-- 56 soruluk havuz: çarpanlar, katlar, asal sayılar.
-- Önceki cihaz-üstü bireysel oyun ve Sınıf Arenası **`/klasik`** yolunda durur.
+## Neler var?
 
-## Dikkat
+- Bireysel ve takımlı canlı yarışma, anlık sıralama, dört renkli cevap şıkkı.
+- Otomatik sayaç; tüm bağlı öğrenciler yanıt verince soru erken kapanır.
+- Öğretmen soru bankası: soru ekleme / düzeltme / silme; CSV ve JSON dosyalarıyla içe/dışa aktarma.
+- Hazır 6. sınıf çarpanlar, katlar ve asal sayılar soru havuzu.
+- Mobil uyumlu arayüz, görsel efektler, QR kod ile öğrenci katılımı.
+- CSV sonuç raporu.
 
-- Ücretsiz Render web servisi 15 dakika işlemsiz kaldığında uykuya geçebilir, tekrar açılması yaklaşık bir dakika sürebilir. Sınıfa girmeden önce siteyi açarak çalıştığını kontrol et.
-- Sunucu yeniden başlarsa, RAM'de tutulan aktif yarışmalar ve puanlar sıfırlanır. Yalnızca tek sunucu örneği çalıştır.
-- Öğrencilere soyadları yerine rumuz kullanmalarını söyle; sonuç CSV'sini kendin sakla.
-- Ücretsiz plan ders içindeki deneme için uygundur; düzenli ve kritik kullanım için daha güvenilir ücretli barındırma değerlendir.
+## Teknik notlar
 
-## Teknoloji
+```text
+app.py                   Python (aiohttp, WebSocket) canlı yarışma sunucusu
+requirements.txt         Python bağımlılıkları
+render.yaml              Render Blueprint için önerilen örnek
+web/index.html           Öğretmen ve öğrenci canlı yarışma ekranları
+web/klasik.html          Bireysel, çevrimdışı/tek oyunculu bölüm
+web/sorular.json         Hazır sorular
+OGRETMEN_KURULUM.md      Adım adım öğretmen yönergesi
+```
 
-Python `aiohttp` + WebSocket, HTML5/JavaScript. Sunucu oyun PIN'ini, cevap sürelerini ve puanları kontrol eder. `render.yaml` hazırdır. Canlı bağlantı `wss://` üzerinden kullanılır.
+Öğretmenin hazırladığı soru bankası tarayıcıda tutulur; **Dışa Aktar** ile yedek alın. Aktif odalar ve puanlar sunucu belleğinde tutulduğundan sunucu yeniden başlatılırsa sıfırlanır.
+
+Bu proje eğitim amaçlıdır. Marka ve içerik paylaşımında kurumunuzun kullanım kurallarını gözetin.
