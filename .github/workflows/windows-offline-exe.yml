@@ -50,8 +50,8 @@ jobs:
               } catch { }
             }
             if (-not $ready) { throw 'Windows EXE did not start server within 60 seconds.' }
-            $home = Invoke-WebRequest -Uri 'http://127.0.0.1:8765/' -UseBasicParsing -TimeoutSec 10
-            if ($home.StatusCode -ne 200 -or $home.Content -notmatch 'Sayı Kâşifleri') {
+            $homepage = Invoke-WebRequest -Uri 'http://127.0.0.1:8765/' -UseBasicParsing -TimeoutSec 10
+            if ($homepage.StatusCode -ne 200 -or $homepage.Content -notmatch 'Sayı Kâşifleri') {
               throw 'The executable started but did not serve the quiz homepage.'
             }
             Write-Host 'Windows EXE local server and homepage: OK'
