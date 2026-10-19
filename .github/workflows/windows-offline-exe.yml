@@ -1,0 +1,50 @@
+name: Windows Offline EXE
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'offline_launcher.py'
+      - 'OFFLINE_KULLANIM.md'
+      - '.github/workflows/windows-offline-exe.yml'
+      - 'app.py'
+      - 'requirements.txt'
+      - 'web/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-exe:
+    name: Build independent Windows executable
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt pyinstaller
+      - name: Build exe
+        shell: pwsh
+        run: |
+          pyinstaller --noconfirm --clean --onefile --console --name SayiKasifleri_Yerel --add-data "web;web" offline_launcher.py
+          if (!(Test-Path 'dist/SayiKasifleri_Yerel.exe')) { throw "EXE generation failed." }
+      - name: Package EXE and teacher guide
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path out | Out-Null
+          Copy-Item dist/SayiKasifleri_Yerel.exe out/
+          Copy-Item OFFLINE_KULLANIM.md out/
+          Compress-Archive -Path out/* -DestinationPath SayiKasifleri_Windows_Yerel_EXE.zip -Force
+      - name: Publish downloadable EXE package
+        uses: actions/upload-artifact@v4
+        with:
+          name: SayiKasifleri_Windows_Yerel_EXE
+          path: SayiKasifleri_Windows_Yerel_EXE.zip
+          if-no-files-found: error
+          retention-days: 90
